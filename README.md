@@ -7,14 +7,10 @@ Usage
 =====
 
    $ ./http_extend 
-   This program needs arguments....
-
    http_extend,0.0.1 fetch http urls and extract values
    http_extend [-?] [-V] [-v] [-u URL] [-r PCRE-REGEX]
-
      -?              print this help and exit
      -V              print version and exit
-
      -v              set verbose flag
      -l              follow location redirects
      -i              ignore ssl certificat verification
