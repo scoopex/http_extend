@@ -61,6 +61,8 @@ int main(int argc, char *argv[]) {
 	char *regex = NULL;
 	int verbose = 0;
 	int status_only = 0;
+   int nossl_verify = 0;
+   int follow_location = 0;
 	struct curl_slist *headers = NULL;
 	int wr_error;
 	int i;
@@ -84,16 +86,14 @@ int main(int argc, char *argv[]) {
 		exit(EXIT_FAILURE);
 	}
 
-
 	/* 
-	 * no arguments given
+	 * if no arguments are given
 	 */
 	 if(argc == 1) {
 	  fprintf(stderr, "This program needs arguments....\n\n");
           print_arguments(argc, argv);
 	  print_help(1);
 	 }
-
 
 	 while((opt = getopt(argc, argv, "?Vflsvt:u:h:r:i")) != -1) {
 	  switch(opt) {
@@ -106,11 +106,13 @@ int main(int argc, char *argv[]) {
 	    break;
 	   case 'i':
 	    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
+	    nossl_verify = 1;
 	    break;
 	   case 's':
 	    status_only = 1;
 	    break;
 	   case 'l':
+       follow_location = 1;
 	    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
 	    break;
 	   case 'f':
@@ -128,7 +130,6 @@ int main(int argc, char *argv[]) {
 	    strcpy(host_header, "Host: ");
 	    strcat(host_header, optarg);
 	    headers = curl_slist_append(headers, host_header);
-	    curl_easy_setopt(curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5");
 	    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 	    break;
 	   case 'r':
@@ -157,6 +158,16 @@ int main(int argc, char *argv[]) {
 	    if ( status_only == 1 ){
 	    	fprintf(stderr, " -s");
 	    }
+       if ( nossl_verify == 1 ){
+	    	fprintf(stderr, " -i");
+	    }
+       if ( follow_location == 1 ){
+	    	fprintf(stderr, " -l");
+	    }
+       if ( fail_on_curl_error == 1 ){
+	    	fprintf(stderr, " -f");
+	    }
+
 	    if ( host_name != NULL ){
 	     	fprintf(stderr, " -h %s",host_name);
   	    }
@@ -172,6 +183,7 @@ int main(int argc, char *argv[]) {
 
 	/* Tell curl the URL of the file we're going to retrieve */
 	curl_easy_setopt(curl, CURLOPT_URL, url);
+   curl_easy_setopt(curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5");
 
 	/* Tell curl that we'll receive data to the function write_data, and
 	 * also provide it with a context pointer for our error return.

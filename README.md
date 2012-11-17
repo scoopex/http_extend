@@ -31,7 +31,10 @@ git clone git://github.com/digitalmediacenter/http_extend.git http_extend
 cd http_extend
 sudo apt-get install libpcre3 libpcre3-dev gcc-4.4 libcurl3 libcurl4-openssl-dev
 make
+# Install to /etc/zabbix/externalscripts
 make install
+# Install to /usr/local/bin
+make INSTALLDIR=/usr/local/bin install
 ```
 
 Usage
