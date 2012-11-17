@@ -17,7 +17,7 @@
 #include "callback.h"
 
 #define PACKAGE    "http_extend"
-#define VERSION    "0.0.1"
+#define VERSION    "1.x"
 
 void print_help(int exval) {
 
