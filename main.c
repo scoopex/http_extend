@@ -1,17 +1,16 @@
 /*
  * main.c
  *
- * vi:set ts=4:
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <curl/curl.h>
+#include <stdbool.h>
 #include <pcre.h>
 #include <getopt.h>
 #include <unistd.h>
-
 
 #include "globals.h"
 #include "callback.h"
@@ -59,15 +58,17 @@ int main(int argc, char *argv[]) {
 	char *host_header = NULL;
 	char *host_name = NULL;
 	char *regex = NULL;
-	int verbose = 0;
-	int status_only = 0;
-   int nossl_verify = 0;
-   int follow_location = 0;
+
+   /* Commandline switches */
+	int verbose = false;
+	int status_only = false;
+   int nossl_verify = false;
+   int follow_location = false;
+	int fail_on_curl_error = false;
+
 	struct curl_slist *headers = NULL;
-	int wr_error;
 	int i;
 	int curl_timeout = TIMEOUT;
-	int fail_on_curl_error = 0;
 
 	pcre *re;
 	const char *error;
@@ -102,21 +103,21 @@ int main(int argc, char *argv[]) {
 	    exit(0);
 	    break;
 	   case 'v':
-	    verbose = 1;
+	    verbose = true;
 	    break;
 	   case 'i':
-	    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
-	    nossl_verify = 1;
+	    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
+	    nossl_verify = true;
 	    break;
 	   case 's':
 	    status_only = 1;
 	    break;
 	   case 'l':
-       follow_location = 1;
-	    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
+       follow_location = true;
+	    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, true);
 	    break;
 	   case 'f':
-	    fail_on_curl_error = 1;
+	    fail_on_curl_error = true;
 	    break;
 	   case 'u':
 	    url = optarg;
@@ -177,7 +178,7 @@ int main(int argc, char *argv[]) {
 
 	
 	if ((url == NULL) || (regex == NULL)){
-                print_arguments(argc, argv);
+      print_arguments(argc, argv);
 		print_help(EXIT_FAILURE);
 	}
 

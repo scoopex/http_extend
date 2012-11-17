@@ -16,6 +16,7 @@
 /* TODO: document these global variables */
 char wr_buf[MAX_BUF + 1];
 int wr_index;
+int wr_error;
 void print_help(int exval);
 void print_arguments(int argc, char *argv[]);
 
