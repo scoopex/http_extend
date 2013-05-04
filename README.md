@@ -103,7 +103,7 @@ Missing features
 Licence and Authors
 -------------------
 
-Additional authors are very welcome - just submit you patches as pull requests.
+Additional authors are very welcome - just submit your patches as pull requests.
 
  * Marc Schoechlin <marc.schoechlin@dmc.de>
  * Andreas Heil <andreas.heil@dmc.de>
