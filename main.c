@@ -32,7 +32,7 @@ void print_help(int exval) {
    printf("  -i              ignore ssl certificat verification\n");
    printf("  -f              fail request on curl errors (receive buffer of %i bytes exceded, http-errors, ..)\n",MAX_BUF);
    printf("  -s              provide only the status of the request (zabbix values: 1 = OK, 0 = NOT OK, )\n");
-   printf("  -m              provide the total delivery time of the request in seconds (zabbix values: >0 = OK (seconds), 0 = NOT OK)\n");
+   printf("  -m              provide the total delivery time of the request in seconds (zabbix values: >0.0 = OK (seconds), 0.0 = NOT OK)\n");
    printf("  -u URL          Specify the url to fetch\n");
    printf("  -t mseconds     Timeout of curl request in 1/1000 seconds (default: %i milliseconds)\n",TIMEOUT);
    printf("  -r PCRE-REGEX   Specify the matching regex\n");
@@ -179,7 +179,7 @@ int main(int argc, char *argv[]) {
 	    	fprintf(stderr, " -s");
 	    }
 	    if ( measure_time  == true ){
-	    	fprintf(stderr, " -w");
+	    	fprintf(stderr, " -m");
 	    }
        if ( nossl_verify == true ){
 	    	fprintf(stderr, " -i");
@@ -222,8 +222,10 @@ int main(int argc, char *argv[]) {
 
 	/* Stop execution here if only status is needed */
 	if ((ret != 0) && (fail_on_curl_error == true)){
-		if ((status_only == true) || (measure_time == true)){
+		if (status_only == true){
 			printf("0");	
+      }else if (measure_time == true){
+			printf("0.0");	
       }
 		exit(EXIT_FAILURE);
 	}
@@ -250,9 +252,11 @@ int main(int argc, char *argv[]) {
 
 	/* Evaluate the match and output status */	
 	if(rc < 0) {
-		if ((status_only == true) || (measure_time == true)){
+		if (status_only == true){
 			printf("0");	
-		}else{
+		}else if (measure_time == true){
+			printf("0.0");	
+      }else{
 			switch (rc) {
 			case PCRE_ERROR_NOMATCH:
 				printf("Damn, no match in http_extend\n");

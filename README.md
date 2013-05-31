@@ -44,7 +44,6 @@ Usage
 Features:
 ```
 $ ./http_extend 
-This program needs arguments....
 
 http_extend,1.x fetch http urls and extract values
 http_extend [-?] [-V] [-v] [-u URL] [-r PCRE-REGEX]
@@ -52,16 +51,17 @@ http_extend [-?] [-V] [-v] [-u URL] [-r PCRE-REGEX]
   -?              print this help and exit
   -V              print version and exit
 
-  -v              set verbose flag
+  -v              set verbose flag (repeat for more output)
   -l              follow location redirects
   -i              ignore ssl certificat verification
   -f              fail request on curl errors (receive buffer of 5242880 bytes exceded, http-errors, ..)
   -s              provide only the status of the request (zabbix values: 1 = OK, 0 = NOT OK, )
-  -m              provide the total delivery time of the request in seconds (zabbix values: >0 = OK (seconds), 0 = NOT OK)
+  -m              provide the total delivery time of the request in seconds (zabbix values: >0.0 = OK (seconds), 0.0 = NOT OK)
   -u URL          Specify the url to fetch
   -t mseconds     Timeout of curl request in 1/1000 seconds (default: 5000 milliseconds)
   -r PCRE-REGEX   Specify the matching regex
   -h HOSTNAME     Specify the host header
+
 ```
 
 Examples:
