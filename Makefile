@@ -52,3 +52,7 @@ install: http_extend
 clean:
 	rm -f http_extend http_extend-static $(OBJECTS) *~ *.d
 
+
+test: http_extend
+	chmod +x ./test-all.sh
+	./test-all.sh

@@ -11,6 +11,8 @@
 #include <pcre.h>
 #include <getopt.h>
 #include <unistd.h>
+#include <sys/time.h>
+#include <math.h>
 
 #include "globals.h"
 #include "callback.h"
@@ -19,22 +21,22 @@
 #define VERSION    "1.x"
 
 void print_help(int exval) {
-
  if (isatty(0) == 1) {
-	 printf("%s,%s fetch http urls and extract values\n", PACKAGE, VERSION); 
-	 printf("%s [-?] [-V] [-v] [-u URL] [-r PCRE-REGEX]\n\n", PACKAGE);
+   printf("%s,%s fetch http urls and extract values\n", PACKAGE, VERSION); 
+   printf("%s [-?] [-V] [-v] [-u URL] [-r PCRE-REGEX]\n\n", PACKAGE);
 
-	 printf("  -?              print this help and exit\n");
-	 printf("  -V              print version and exit\n\n");
-	 printf("  -v              set verbose flag\n");
-	 printf("  -l              follow location redirects\n");
-	 printf("  -i              ignore ssl certificat verification\n");
-	 printf("  -f              fail request on curl errors (receive buffer of %i bytes exceded, http-errors, ..)\n",MAX_BUF);
-	 printf("  -s              provide only the status of the request (zabbix values: 1 = OK, 0 = NOT OK)\n");
-	 printf("  -u URL          Specify the url to fetch\n");
-	 printf("  -t mseconds     Timeout of curl request in 1/1000 seconds (default: %i milliseconds)\n",TIMEOUT);
-	 printf("  -r PCRE-REGEX   Specify the matching regex\n");
-	 printf("  -h HOSTNAME     Specify the host header\n\n");
+   printf("  -?              print this help and exit\n");
+   printf("  -V              print version and exit\n\n");
+   printf("  -v              set verbose flag\n");
+   printf("  -l              follow location redirects\n");
+   printf("  -i              ignore ssl certificat verification\n");
+   printf("  -f              fail request on curl errors (receive buffer of %i bytes exceded, http-errors, ..)\n",MAX_BUF);
+   printf("  -s              provide only the status of the request (zabbix values: 1 = OK, 0 = NOT OK, )\n");
+   printf("  -m              provide the total delivery time of the request in seconds (zabbix values: >0 = OK (seconds), 0 = NOT OK)\n");
+   printf("  -u URL          Specify the url to fetch\n");
+   printf("  -t mseconds     Timeout of curl request in 1/1000 seconds (default: %i milliseconds)\n",TIMEOUT);
+   printf("  -r PCRE-REGEX   Specify the matching regex\n");
+   printf("  -h HOSTNAME     Specify the host header\n\n");
  }
  exit(exval);
 }
@@ -50,35 +52,49 @@ void print_arguments(int argc, char *argv[]) {
 	   }
 }
 
+/* Return 1 if the difference is negative, otherwise 0.  */
+int timeval_subtract(struct timeval *result, struct timeval *t2, struct timeval *t1)
+{
+    long int diff = (t2->tv_usec + 1000000 * t2->tv_sec) - (t1->tv_usec + 1000000 * t1->tv_sec);
+    result->tv_sec = diff / 1000000;
+    result->tv_usec = diff % 1000000;
+
+    return (diff<0);
+}
+
+
 int main(int argc, char *argv[]) {
 
-	CURL *curl;
-	CURLcode ret;
-	char *url = NULL;
-	char *host_header = NULL;
-	char *host_name = NULL;
-	char *regex = NULL;
+   CURL *curl;
+   CURLcode ret;
+   char *url = NULL;
+   char *host_header = NULL;
+   char *host_name = NULL;
+   char *regex = NULL;
+
+   struct timeval tvBegin, tvEnd, tvDiff;
 
    /* Commandline switches */
-	int verbose = false;
-	int status_only = false;
+   int verbose = false;
+   int status_only = false;
+   int measure_time = false;
    int nossl_verify = false;
    int follow_location = false;
-	int fail_on_curl_error = false;
+   int fail_on_curl_error = false;
 
-	struct curl_slist *headers = NULL;
-	int i;
-	int curl_timeout = TIMEOUT;
+   struct curl_slist *headers = NULL;
+   int i;
+   int curl_timeout = TIMEOUT;
 
-	pcre *re;
-	const char *error;
-	int erroffset;
-	int ovector[OVECCOUNT];
-	int rc;
-	int opt;
+   pcre *re;
+   const char *error;
+   int erroffset;
+   int ovector[OVECCOUNT];
+   int rc;
+   int opt;
 
-	wr_error = 0;
-	wr_index = 0;
+   wr_error = 0;
+   wr_index = 0;
 
 	/* First step, init curl */
 	curl = curl_easy_init();
@@ -96,7 +112,7 @@ int main(int argc, char *argv[]) {
 	  print_help(1);
 	 }
 
-	 while((opt = getopt(argc, argv, "?Vflsvt:u:h:r:i")) != -1) {
+	 while((opt = getopt(argc, argv, "?Vfmlsvt:u:h:r:i")) != -1) {
 	  switch(opt) {
 	   case 'V':
 	    printf("%s %s\n\n", PACKAGE, VERSION); 
@@ -110,7 +126,10 @@ int main(int argc, char *argv[]) {
 	    nossl_verify = true;
 	    break;
 	   case 's':
-	    status_only = 1;
+	    status_only = true;
+	    break;
+	   case 'm':
+	    measure_time = true;
 	    break;
 	   case 'l':
        follow_location = true;
@@ -148,7 +167,7 @@ int main(int argc, char *argv[]) {
 	   }
 	}
 
-	if (verbose == 1){
+	if (verbose == true){
 	    fprintf(stderr, "%-15s %s\n", "URL", url);
 	    fprintf(stderr, "%-15s %s\n", "REGEX", regex);
 	    fprintf(stderr, "%-15s %i\n", "TIMEOUT", curl_timeout);
@@ -156,16 +175,19 @@ int main(int argc, char *argv[]) {
 	    fprintf(stderr, "%-15s %i\n\n", "STATUS ONLY", status_only);
 
 	    fprintf(stderr, "%-15s %s[-t %i -u \"%s\" -r \"%s\"", "ZABBIX ITEM", PACKAGE, curl_timeout, url, regex);
-	    if ( status_only == 1 ){
+	    if ( status_only == true ){
 	    	fprintf(stderr, " -s");
 	    }
-       if ( nossl_verify == 1 ){
+	    if ( measure_time  == true ){
+	    	fprintf(stderr, " -w");
+	    }
+       if ( nossl_verify == true ){
 	    	fprintf(stderr, " -i");
 	    }
-       if ( follow_location == 1 ){
+       if ( follow_location == true ){
 	    	fprintf(stderr, " -l");
 	    }
-       if ( fail_on_curl_error == 1 ){
+       if ( fail_on_curl_error == true ){
 	    	fprintf(stderr, " -f");
 	    }
 
@@ -193,14 +215,16 @@ int main(int argc, char *argv[]) {
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
 	curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, curl_timeout);
 
+   gettimeofday(&tvBegin, NULL);
+
 	/* Allow curl to perform the action */
 	ret = curl_easy_perform(curl);
 
 	/* Stop execution here if only status is needed */
-	if ((ret != 0) && (fail_on_curl_error == 1)){
-		if (status_only == 1){
+	if ((ret != 0) && (fail_on_curl_error == true)){
+		if ((status_only == true) || (measure_time == true)){
 			printf("0");	
-		}
+      }
 		exit(EXIT_FAILURE);
 	}
 
@@ -220,14 +244,13 @@ int main(int argc, char *argv[]) {
 				   ovector,		/* output vector for substring information */
 				   OVECCOUNT);	/* number of elements in the output vector */
 
-	if(verbose == 1) {
+	if(verbose == true) {
 		fprintf(stderr, "out: %s\n", wr_buf);
 	}
 
 	/* Evaluate the match and output status */	
 	if(rc < 0) {
-
-		if (status_only == 1){
+		if ((status_only == true) || (measure_time == true)){
 			printf("0");	
 		}else{
 			switch (rc) {
@@ -247,9 +270,13 @@ int main(int argc, char *argv[]) {
 	}
 
 	if(rc == 2) {
-		if (status_only == 1){
+		if (status_only == true){
 			printf("1");	
-		}else{
+		}else if (measure_time == true){
+         gettimeofday(&tvEnd, NULL);
+         timeval_subtract(&tvDiff, &tvEnd, &tvBegin);
+         printf("%ld.%06ld", tvDiff.tv_sec, tvDiff.tv_usec);
+      }else{
 			char *substring_start = NULL;
 			int substring_length = 0;
 			i = 1;

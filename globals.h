@@ -19,5 +19,7 @@ int wr_index;
 int wr_error;
 void print_help(int exval);
 void print_arguments(int argc, char *argv[]);
+int timeval_subtract(struct timeval *result, struct timeval *t2, struct timeval *t1);
+
 
 #endif							/* GLOBALS_H */

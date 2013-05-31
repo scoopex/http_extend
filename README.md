@@ -56,7 +56,8 @@ http_extend [-?] [-V] [-v] [-u URL] [-r PCRE-REGEX]
   -l              follow location redirects
   -i              ignore ssl certificat verification
   -f              fail request on curl errors (receive buffer of 5242880 bytes exceded, http-errors, ..)
-  -s              provide only the status of the request (zabbix values: 1 = OK, 0 = NOT OK)
+  -s              provide only the status of the request (zabbix values: 1 = OK, 0 = NOT OK, )
+  -m              provide the total delivery time of the request in seconds (zabbix values: >0 = OK (seconds), 0 = NOT OK)
   -u URL          Specify the url to fetch
   -t mseconds     Timeout of curl request in 1/1000 seconds (default: 5000 milliseconds)
   -r PCRE-REGEX   Specify the matching regex
