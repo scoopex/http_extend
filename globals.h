@@ -3,6 +3,8 @@
  *
  * vi:set ts=4:
  */
+#include <sys/time.h>
+
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
