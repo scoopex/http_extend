@@ -27,7 +27,7 @@ void print_help(int exval) {
 
    printf("  -?              print this help and exit\n");
    printf("  -V              print version and exit\n\n");
-   printf("  -v              set verbose flag\n");
+   printf("  -v              set verbose flag (repeat for more output)\n");
    printf("  -l              follow location redirects\n");
    printf("  -i              ignore ssl certificat verification\n");
    printf("  -f              fail request on curl errors (receive buffer of %i bytes exceded, http-errors, ..)\n",MAX_BUF);
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
    struct timeval tvBegin, tvEnd, tvDiff;
 
    /* Commandline switches */
-   int verbose = false;
+   int verbose_level=0;
    int status_only = false;
    int measure_time = false;
    int nossl_verify = false;
@@ -119,7 +119,7 @@ int main(int argc, char *argv[]) {
 	    exit(0);
 	    break;
 	   case 'v':
-	    verbose = true;
+       verbose_level++;
 	    break;
 	   case 'i':
 	    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -167,7 +167,7 @@ int main(int argc, char *argv[]) {
 	   }
 	}
 
-	if (verbose == true){
+	if (verbose_level > 0){
 	    fprintf(stderr, "%-15s %s\n", "URL", url);
 	    fprintf(stderr, "%-15s %s\n", "REGEX", regex);
 	    fprintf(stderr, "%-15s %i\n", "TIMEOUT", curl_timeout);
@@ -244,7 +244,7 @@ int main(int argc, char *argv[]) {
 				   ovector,		/* output vector for substring information */
 				   OVECCOUNT);	/* number of elements in the output vector */
 
-	if(verbose == true) {
+	if(verbose_level > 1) {
 		fprintf(stderr, "out: %s\n", wr_buf);
 	}
 
