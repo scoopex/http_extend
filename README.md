@@ -1,5 +1,5 @@
 http_extend
-============
+===========
 
 "HTTP-Monitoring" Tool for Zabbix
 
@@ -99,18 +99,20 @@ The first matching regex group is printed to STDOUT. All other output is printed
 Tips / Good to know
 -------------------
 
-Timeout
-=======
+Timeout:
+
 Maybe you have t increase timeout in Zabbix server configuration for external check:
+```
 Default:  3 seconds
 Max:     30 seconds
+```
 
 More information can be found in documentation: https://www.zabbix.com/documentation/2.0/manual/appendix/config/zabbix_server
 
 Missing features
 ----------------
- * Fetch the remaining days of validness of ssl certificates
- * Measure Time-To-First-Byte
+- [ ] Fetch the remaining days of validness of ssl certificates
+- [ ] Measure Time-To-First-Byte
 
 Licence and Authors
 -------------------
