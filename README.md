@@ -1,5 +1,5 @@
 http_extend
-============
+===========
 
 "HTTP-Monitoring" Tool for Zabbix
 
@@ -100,7 +100,6 @@ Tips / Good to know
 -------------------
 
 Timeout
-=======
 Maybe you have t increase timeout in Zabbix server configuration for external check:
 Default:  3 seconds
 Max:     30 seconds
