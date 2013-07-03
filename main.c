@@ -168,13 +168,13 @@ int main(int argc, char *argv[]) {
 	}
 
 	if (verbose_level > 0){
-	    fprintf(stderr, "%-15s %s\n", "URL", url);
-	    fprintf(stderr, "%-15s %s\n", "REGEX", regex);
-	    fprintf(stderr, "%-15s %i\n", "TIMEOUT", curl_timeout);
-	    fprintf(stderr, "%-15s %s\n",   "HOST HEADER", host_header);
-	    fprintf(stderr, "%-15s %i\n\n", "STATUS ONLY", status_only);
+	    fprintf(stderr, "%-17s %s\n", "URL", url);
+	    fprintf(stderr, "%-17s %s\n", "REGEX", regex);
+	    fprintf(stderr, "%-17s %i\n", "TIMEOUT", curl_timeout);
+	    fprintf(stderr, "%-17s %s\n",   "HOST HEADER", host_header);
+	    fprintf(stderr, "%-17s %i\n\n", "STATUS ONLY", status_only);
 
-	    fprintf(stderr, "%-15s %s[-t %i -u \"%s\" -r \"%s\"", "ZABBIX ITEM", PACKAGE, curl_timeout, url, regex);
+	    fprintf(stderr, "%-17s %s[-t %i -u \"%s\" -r \"%s\"", "ZABBIX 1.8 ITEM", PACKAGE, curl_timeout, url, regex);
 	    if ( status_only == true ){
 	    	fprintf(stderr, " -s");
 	    }
@@ -194,7 +194,31 @@ int main(int argc, char *argv[]) {
 	    if ( host_name != NULL ){
 	     	fprintf(stderr, " -h %s",host_name);
   	    }
+	    fprintf(stderr, "]\n");
+
+	    fprintf(stderr, "%-17s %s[\"-t\",\"%i\",\"-u\",\"%s\",\"-r\",\"%s\"", "ZABBIX 2.0 ITEM", PACKAGE, curl_timeout, url, regex);
+	    if ( status_only == true ){
+	    	fprintf(stderr, ",\"-s\"");
+	    }
+	    if ( measure_time  == true ){
+	    	fprintf(stderr, ",\"-m\"");
+	    }
+       if ( nossl_verify == true ){
+	    	fprintf(stderr, ",\"-i\"");
+	    }
+       if ( follow_location == true ){
+	    	fprintf(stderr, ",\"-l\"");
+	    }
+       if ( fail_on_curl_error == true ){
+	    	fprintf(stderr, ",\"-f\"");
+	    }
+
+	    if ( host_name != NULL ){
+	     	fprintf(stderr, ",\"-h\",\"%s\"",host_name);
+  	    }
 	   fprintf(stderr, "]\n");
+
+
 
 	}
 
