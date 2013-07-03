@@ -6,7 +6,7 @@ assertSuccess(){
  CMD="$1"
  echo "+ $CMD";
  echo -n ">>>"
- $CMD 2>&1
+ eval "$CMD 2>&1"
  RET="$?"
  echo "<<<"
  if [ "$RET" != "0" ];then
@@ -32,8 +32,8 @@ assertFail(){
 
 
 echo "*** TESTS"
-assertSuccess './http_extend -v -s -u http://www.google.de -r "(.*body.*)'
-assertSuccess './http_extend -s -u http://www.google.de -r "(.*body.*)'
+assertSuccess './http_extend -v -s -u http://www.google.de -r "(.*body.*)"'
+assertSuccess './http_extend -s -u http://www.google.de -r "(.*body.*)"'
 assertSuccess './http_extend -m -u http://www.google.de -r "(.*body.*)"'
 assertFail './http_extend -t 1 -m -u http://www.google.de -r "(.*body.*)"'
 assertFail './http_extend -m -u http://www.google.de -r "(.*bodyAAA.*)"'
