@@ -217,9 +217,6 @@ int main(int argc, char *argv[]) {
 	     	fprintf(stderr, ",\"-h\",\"%s\"",host_name);
   	    }
 	   fprintf(stderr, "]\n");
-
-
-
 	}
 
 	
