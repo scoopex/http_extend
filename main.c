@@ -30,7 +30,7 @@ void print_help(int exval) {
    printf("  -v              set verbose flag (repeat for more output)\n");
    printf("  -a              use the entire http/https response for contect parsing (i.e. headers)\n");
    printf("  -l              follow location redirects\n");
-   printf("  -i              ignore ssl certificat verification\n");
+   printf("  -i              ignore ssl certificate verification\n");
    printf("  -f              fail request on curl errors (receive buffer of %i bytes exceded, http-errors, ..)\n",MAX_BUF);
    printf("  -s              provide only the status of the request (zabbix values: 1 = OK, 0 = NOT OK, )\n");
    printf("  -m              provide the total delivery time of the request in seconds (zabbix values: >0.0 = OK (seconds), 0.0 = NOT OK)\n");
@@ -126,7 +126,9 @@ int main(int argc, char *argv[]) {
        curl_easy_setopt(curl, CURLOPT_HEADER  , true);
 	    break;
 	   case 'i':
-	    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
+       curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
+       curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, false);
+       curl_easy_setopt(curl, CURLOPT_SSLVERSION, 2);
 	    nossl_verify = true;
 	    break;
 	   case 's':

@@ -12,7 +12,8 @@ CFLAGS=	-O2 -fno-strict-aliasing -pipe \
 	-W -Wall -ansi -pedantic -Wbad-function-cast -Wcast-align \
 	-Wcast-qual -Wchar-subscripts -Winline \
 	-Wmissing-prototypes -Wnested-externs -Wpointer-arith \
-	-Wredundant-decls -Wshadow -Wstrict-prototypes -Wwrite-strings
+	-Wredundant-decls -Wshadow -Wstrict-prototypes -Wwrite-strings \
+	-DUSE_SSLEAY -DUSE_OPENSSL
 LDFLAGS=
 LDFLAGS_STATIC= -static
 LDADD=
