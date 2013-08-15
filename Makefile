@@ -7,7 +7,9 @@ PKG_LDFLAGS_STATIC=$(shell pkg-config --static --libs-only-L $(PKG_CONFIG))
 PKG_LDADD=$(shell pkg-config --libs-only-l --libs-only-other $(PKG_CONFIG))
 PKG_LDADD_STATIC=$(shell pkg-config --static --libs-only-l --libs-only-other $(PKG_CONFIG))
 
-CC=gcc-4.4
+# overload this, if needed
+CC ?= gcc-4.4
+
 CFLAGS=	-O2 -fno-strict-aliasing -pipe \
 	-W -Wall -ansi -pedantic -Wbad-function-cast -Wcast-align \
 	-Wcast-qual -Wchar-subscripts -Winline \
