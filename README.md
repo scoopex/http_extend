@@ -103,6 +103,8 @@ Show value.........: Service state
 
 The first matching regex group is printed to STDOUT. All other output is printed to STDERR.
 
+See also subfolder "zabbix_templates/".
+
 Tips / Good to know
 -------------------
 
