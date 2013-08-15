@@ -28,6 +28,7 @@ void print_help(int exval) {
    printf("  -?              print this help and exit\n");
    printf("  -V              print version and exit\n\n");
    printf("  -v              set verbose flag (repeat for more output)\n");
+   printf("  -a              use the entire http/https response for contect parsing (i.e. headers)\n");
    printf("  -l              follow location redirects\n");
    printf("  -i              ignore ssl certificat verification\n");
    printf("  -f              fail request on curl errors (receive buffer of %i bytes exceded, http-errors, ..)\n",MAX_BUF);
@@ -109,10 +110,10 @@ int main(int argc, char *argv[]) {
 	 if(argc == 1) {
 	  fprintf(stderr, "This program needs arguments....\n\n");
           print_arguments(argc, argv);
-	  print_help(1);
+	       print_help(1);
 	 }
 
-	 while((opt = getopt(argc, argv, "?Vfmlsvt:u:h:r:i")) != -1) {
+	 while((opt = getopt(argc, argv, "?Vfamlsvt:u:h:r:i")) != -1) {
 	  switch(opt) {
 	   case 'V':
 	    printf("%s %s\n\n", PACKAGE, VERSION); 
@@ -120,6 +121,9 @@ int main(int argc, char *argv[]) {
 	    break;
 	   case 'v':
        verbose_level++;
+	    break;
+	   case 'a':
+       curl_easy_setopt(curl, CURLOPT_HEADER  , true);
 	    break;
 	   case 'i':
 	    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -166,6 +170,10 @@ int main(int argc, char *argv[]) {
 	    print_help(1);
 	   }
 	}
+
+	if (verbose_level > 2){
+      curl_easy_setopt(curl, CURLOPT_VERBOSE , true);
+   }
 
 	if (verbose_level > 0){
 	    fprintf(stderr, "%-17s %s\n", "URL", url);

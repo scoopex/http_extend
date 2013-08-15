@@ -67,26 +67,33 @@ http_extend [-?] [-V] [-v] [-u URL] [-r PCRE-REGEX]
 Examples:
 ```
 ./http_extend -h
+# Parse apache server status and gain "Total Accesses" value
 ./http_extend -v -u "https://www.foobar.org/server-status?auto" -r "Total Accesses: (\d+)"
+# Check if string "Impressum" is in the response and return "1", otherwise return "0"
 ./http_extend -v -l -t 5000 -u 'http://10.1.1.1:80/men/shirts' -r '(Impressum)' -s -h www.foobarshop.de
+# Check if header value "X-Cache-Lookup: HIT from" is set and return "1", 
+# otherwise return "0" (show whole answer for debugging purposes)
+./http_extend  -l -u http://foobar.com/ -r '(X-Cache-Lookup: HIT from)' -s  -t 100000 -vvv -a
 ```
 
 Gather data from a apache-server-status page and add it as an measure to zabbix.
 ```
 Description........: Apache Requests
 Type...............: External check
-Key................: http_extend[-t 5000 -u "https://{HOSTNAME}/server-status?auto" -r "Total Accesses: (\d+)"]
+Key Zabbix 1.8.....: http_extend[-t 5000 -u "https://{HOSTNAME}/server-status?auto" -r "Total Accesses: (\d+)"]
+Key Zabbix 2.0.....: http_extend[-t,5000,-u,"https://{HOSTNAME}/server-status?auto",-r,"Total Accesses: (\d+)"]
 Type of information: Numeric (unsigned)
 Data type..........: Decimal
 Update interval....: 300
-Store value........: Delta (simple change)
+Store value........: Delta (speed per second)
 ```
 
 Check a website on a host behind a loadbalancer by setting the hostheader.
 ```
 Description........: Check for "Impressum"
 Type...............: External check
-Key................: http_extend[-l -t {$TIMEOUT} -u 'http://{IPADDRESS}:80/men/shirts' -r '(Impressum)' -s -h www.foobarshop.de]
+Key Zabbix 1.8.....: http_extend[-l -t {$TIMEOUT} -u 'http://{IPADDRESS}:80/men/shirts' -r '(Impressum)' -s -h www.foobarshop.de]
+Key Zabbix 2.0.....: http_extend[-l,-t,{$TIMEOUT},-u,'http://{IPADDRESS}:80/men/shirts',-r,'(Impressum)',-s,-h,www.foobarshop.de]
 Type of information: Numeric (unsigned)
 Data type..........: Decimal
 Update interval....: 300
