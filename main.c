@@ -11,7 +11,6 @@
 #include <pcre.h>
 #include <getopt.h>
 #include <unistd.h>
-#include <time.h>
 #include <sys/time.h>
 #include <math.h>
 #include <openssl/ssl.h>
@@ -297,9 +296,8 @@ int main(int argc, char *argv[]) {
    
 	/* Allow curl to perform the action */
 	ret = curl_easy_perform(curl);
-
 	/* Stop execution here if only status is needed */
-	if ((ret != 0) && (fail_on_curl_error == true)){
+	if ((ret != 0) || (fail_on_curl_error == true)){
 		if (status_only == true){
 			printf("0");	
       }else if (measure_time == true){
@@ -310,6 +308,9 @@ int main(int argc, char *argv[]) {
 
    /* Get days until certificate expires */
    if(ssl_valid_date == true) {
+	   if(ret!=0 || certificates[0]==0) {
+        exit(EXIT_FAILURE);
+      }
       ASN1_TIME * notAfter = X509_get_notAfter(certificates[0]);
 	   time_t now = time(NULL); 
       time_t expire = ASN1_GetTimeT(notAfter);
@@ -389,6 +390,7 @@ CURLcode sslctxfunc(CURL *curl, SSL_CTX *sslctx, void *parm) {
   return CURLE_OK; 
 }
 
+/* Add certificate chain and errors to certs array */
 int verify_callback(int preverify_ok, X509_STORE_CTX *x509_ctx) {
   X509 *cert = X509_STORE_CTX_get_current_cert(x509_ctx);
   int depth = X509_STORE_CTX_get_error_depth(x509_ctx);
@@ -400,8 +402,5 @@ int verify_callback(int preverify_ok, X509_STORE_CTX *x509_ctx) {
   }
   return 1;
 }
-
-
-
 
 /* vim:ai et ts=2 shiftwidth=2 expandtab tabstop=3 tw=120 */
