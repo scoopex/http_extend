@@ -179,7 +179,6 @@ int main(int argc, char *argv[]) {
 	   case 'i':
        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, false);
-       curl_easy_setopt(curl, CURLOPT_SSLVERSION, 2);
 	    nossl_verify = true;
 	    break;
 	   case 's':
