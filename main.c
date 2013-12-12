@@ -65,23 +65,23 @@ static time_t ASN1_GetTimeT(ASN1_TIME* atime)
 
 void print_help(int exval) {
  if (isatty(0) == 1) {
-   printf("%s,%s fetch http urls and extract values\n", PACKAGE, VERSION); 
-   printf("%s [-?] [-V] [-v] [-u URL] [-r PCRE-REGEX]\n\n", PACKAGE);
+   fprintf(stderr,"%s,%s fetch http urls and extract values\n", PACKAGE, VERSION); 
+   fprintf(stderr,"%s [-?] [-V] [-v] [-u URL] [-r PCRE-REGEX]\n\n", PACKAGE);
 
-   printf("  -?              print this help and exit\n");
-   printf("  -V              print version and exit\n\n");
-   printf("  -v              set verbose flag (repeat for more output)\n");
-   printf("  -a              use the entire http/https response for contect parsing (i.e. headers)\n");
-   printf("  -l              follow location redirects\n");
-   printf("  -i              ignore ssl certificate verification\n");
-   printf("  -f              fail request on curl errors (receive buffer of %i bytes exceded, http-errors, ..)\n",MAX_BUF);
-   printf("  -s              provide only the status of the request (zabbix values: 1 = OK, 0 = NOT OK, )\n");
-   printf("  -m              provide the total delivery time of the request in seconds (zabbix values: >0.0 = OK (seconds), 0.0 = NOT OK)\n");
-   printf("  -c              check ssl certificate and return days until expire\n");
-   printf("  -u URL          Specify the url to fetch\n");
-   printf("  -t mseconds     Timeout of curl request in 1/1000 seconds (default: %i milliseconds)\n",TIMEOUT);
-   printf("  -r PCRE-REGEX   Specify the matching regex\n");
-   printf("  -h HOSTNAME     Specify the host header\n\n");
+   fprintf(stderr,"  -?              print this help and exit\n");
+   fprintf(stderr,"  -V              print version and exit\n\n");
+   fprintf(stderr,"  -v              set verbose flag (repeat for more output)\n");
+   fprintf(stderr,"  -a              use the entire http/https response for contect parsing (i.e. headers)\n");
+   fprintf(stderr,"  -l              follow location redirects\n");
+   fprintf(stderr,"  -i              ignore ssl certificate verification\n");
+   fprintf(stderr,"  -f              fail request on curl errors (receive buffer of %i bytes exceded, http-errors, ..)\n",MAX_BUF);
+   fprintf(stderr,"  -s              provide only the status of the request (zabbix values: 1 = OK, 0 = NOT OK, )\n");
+   fprintf(stderr,"  -m              provide the total delivery time of the request in seconds (zabbix values: >0.0 = OK (seconds), 0.0 = NOT OK)\n");
+   fprintf(stderr,"  -c              check ssl certificate and return days until expire\n");
+   fprintf(stderr,"  -u URL          Specify the url to fetch\n");
+   fprintf(stderr,"  -t mseconds     Timeout of curl request in 1/1000 seconds (default: %i milliseconds)\n",TIMEOUT);
+   fprintf(stderr,"  -r PCRE-REGEX   Specify the matching regex\n");
+   fprintf(stderr,"  -h HOSTNAME     Specify the host header\n\n");
  }
  exit(exval);
 }
@@ -167,18 +167,18 @@ int main(int argc, char *argv[]) {
 	 while((opt = getopt(argc, argv, "?Vfcamlsvt:u:h:r:i")) != -1) {
 	  switch(opt) {
 	   case 'V':
-	    printf("%s %s\n\n", PACKAGE, VERSION); 
+	    fprintf(stderr,"%s %s\n\n", PACKAGE, VERSION); 
 	    exit(0);
 	    break;
 	   case 'v':
-       verbose_level++;
+       	    verbose_level++;
 	    break;
 	   case 'a':
-       curl_easy_setopt(curl, CURLOPT_HEADER  , true);
+       	    curl_easy_setopt(curl, CURLOPT_HEADER  , true);
 	    break;
 	   case 'i':
-       curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
-       curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, false);
+	    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
+	    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, false);
 	    nossl_verify = true;
 	    break;
 	   case 's':
@@ -188,7 +188,7 @@ int main(int argc, char *argv[]) {
 	    measure_time = true;
 	    break;
 	   case 'l':
-       follow_location = true;
+            follow_location = true;
 	    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, true);
 	    break;
 	   case 'f':
@@ -225,9 +225,9 @@ int main(int argc, char *argv[]) {
 	   }
 	}
 
-	if (verbose_level > 2){
-      curl_easy_setopt(curl, CURLOPT_VERBOSE , true);
-   }
+	if (verbose_level > 3){
+      		curl_easy_setopt(curl, CURLOPT_VERBOSE , true);
+   	}
 
 	if (verbose_level > 0){
 	    fprintf(stderr, "%-17s %s\n", "URL", url);
@@ -236,27 +236,27 @@ int main(int argc, char *argv[]) {
 	    fprintf(stderr, "%-17s %s\n",   "HOST HEADER", host_header);
 	    fprintf(stderr, "%-17s %i\n\n", "STATUS ONLY", status_only);
 
-	    fprintf(stderr, "%-17s %s[-t %i -u \"%s\" -r \"%s\"", "ZABBIX 1.8 ITEM", PACKAGE, curl_timeout, url, regex);
+	    fprintf(stderr, "%-17s %s -t %i -u \"%s\" -r \"%s\"", "CMD ", PACKAGE, curl_timeout, url, regex);
 	    if ( status_only == true ){
 	    	fprintf(stderr, " -s");
 	    }
 	    if ( measure_time  == true ){
 	    	fprintf(stderr, " -m");
 	    }
-       if ( nossl_verify == true ){
-	    	fprintf(stderr, " -i");
-	    }
-       if ( follow_location == true ){
-	    	fprintf(stderr, " -l");
-	    }
-       if ( fail_on_curl_error == true ){
-	    	fprintf(stderr, " -f");
+	    if ( nossl_verify == true ){
+	     	fprintf(stderr, " -i");
+	         }
+	    if ( follow_location == true ){
+	     	fprintf(stderr, " -l");
+	         }
+	    if ( fail_on_curl_error == true ){
+			fprintf(stderr, " -f");
 	    }
 
 	    if ( host_name != NULL ){
 	     	fprintf(stderr, " -h %s",host_name);
   	    }
-	    fprintf(stderr, "]\n");
+	    fprintf(stderr, "\n");
 
 	    fprintf(stderr, "%-17s %s[\"-t\",\"%i\",\"-u\",\"%s\",\"-r\",\"%s\"", "ZABBIX 2.0 ITEM", PACKAGE, curl_timeout, url, regex);
 	    if ( status_only == true ){
@@ -265,14 +265,14 @@ int main(int argc, char *argv[]) {
 	    if ( measure_time  == true ){
 	    	fprintf(stderr, ",\"-m\"");
 	    }
-       if ( nossl_verify == true ){
-	    	fprintf(stderr, ",\"-i\"");
-	    }
-       if ( follow_location == true ){
-	    	fprintf(stderr, ",\"-l\"");
-	    }
-       if ( fail_on_curl_error == true ){
-	    	fprintf(stderr, ",\"-f\"");
+	    if ( nossl_verify == true ){
+	     	fprintf(stderr, ",\"-i\"");
+	         }
+	    if ( follow_location == true ){
+	     	fprintf(stderr, ",\"-l\"");
+	         }
+	    if ( fail_on_curl_error == true ){
+		fprintf(stderr, ",\"-f\"");
 	    }
 
 	    if ( host_name != NULL ){
@@ -283,13 +283,13 @@ int main(int argc, char *argv[]) {
 
 	
 	if (((url == NULL) || (regex == NULL)) && (ssl_valid_date == false)){ 
-      print_arguments(argc, argv);
+      		print_arguments(argc, argv);
 		print_help(EXIT_FAILURE);
 	}
 
 	/* Tell curl the URL of the file we're going to retrieve */
 	curl_easy_setopt(curl, CURLOPT_URL, url);
-   curl_easy_setopt(curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5");
+   	curl_easy_setopt(curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5");
 
 	/* Tell curl that we'll receive data to the function write_data, and
 	 * also provide it with a context pointer for our error return.
@@ -298,17 +298,17 @@ int main(int argc, char *argv[]) {
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
 	curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, curl_timeout);
 
-   gettimeofday(&tvBegin, NULL);
-   /* Initialize certificate array*/
-   for(i=0; i<MAX_CERTS;i++) {
-      certificates[i] = 0;
-      certificates_error[i] = X509_V_OK;
-   }
-   curl_easy_setopt(curl, CURLOPT_SSL_CTX_FUNCTION, sslctxfunc);
-   if(ssl_valid_date == true) {
-      curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
-      curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, false);
-   }
+	gettimeofday(&tvBegin, NULL);
+	/* Initialize certificate array*/
+	for(i=0; i<MAX_CERTS;i++) {
+	   certificates[i] = 0;
+	   certificates_error[i] = X509_V_OK;
+	}
+	curl_easy_setopt(curl, CURLOPT_SSL_CTX_FUNCTION, sslctxfunc);
+	if(ssl_valid_date == true) {
+	   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
+	   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, false);
+	}
    
 	/* Allow curl to perform the action */
 	ret = curl_easy_perform(curl);
@@ -316,26 +316,37 @@ int main(int argc, char *argv[]) {
 	if ((ret != 0) || (fail_on_curl_error == true)){
 		if (status_only == true){
 			printf("0");	
-      }else if (measure_time == true){
+                        if (verbose_level > 1){
+         			fprintf(stderr,"returned: '0'\n");
+			}
+      		}else if (measure_time == true){
 			printf("0.0");	
-      }
+                        if (verbose_level > 1){
+         			fprintf(stderr,"returned: '0.0'\n");
+			}
+      		}
 		exit(EXIT_FAILURE);
 	}
 
-   /* Get days until certificate expires */
-   if(ssl_valid_date == true) {
-	   if(ret!=0 || certificates[0]==0) {
-        exit(EXIT_FAILURE);
-      }
-      notAfter = X509_get_notAfter(certificates[0]);
-      now = time(NULL); 
-      expire = ASN1_GetTimeT(notAfter);
-      time_left = (expire-now)/(60*60*24);
+	/* Get days until certificate expires */
+	if(ssl_valid_date == true) {
+	        if(ret!=0 || certificates[0]==0) {
+	     exit(EXIT_FAILURE);
+	   }
+	   notAfter = X509_get_notAfter(certificates[0]);
+	   now = time(NULL); 
+	   expire = ASN1_GetTimeT(notAfter);
+	   time_left = (expire-now)/(60*60*24);
 
-      printf("%d",time_left);
+	   printf("%d",time_left);
+
+           if (verbose_level > 1){
+           	fprintf(stderr,"returned: '%d'\n",time_left);
+	   }
+
 	   curl_easy_cleanup(curl);
-      exit(EXIT_SUCCESS);
-   }
+	   exit(EXIT_SUCCESS);
+	}
 
 	re = pcre_compile(regex,	/* the pattern */
 					  0,		/* default options */
@@ -352,8 +363,7 @@ int main(int argc, char *argv[]) {
 				   0,			/* default options */
 				   ovector,		/* output vector for substring information */
 				   OVECCOUNT);	/* number of elements in the output vector */
-
-	if(verbose_level > 1) {
+	if(verbose_level > 2) {
 		fprintf(stderr, "out: %s\n", wr_buf);
 	}
 
@@ -361,18 +371,24 @@ int main(int argc, char *argv[]) {
 	if(rc < 0) {
 		if (status_only == true){
 			printf("0");	
+                        if (verbose_level > 1){
+         			fprintf(stderr,"returned: '0'\n");
+			}
 		}else if (measure_time == true){
 			printf("0.0");	
-      }else{
+                        if (verbose_level > 1){
+         			fprintf(stderr,"returned: '0.0'\n");
+			}
+      		}else{
 			switch (rc) {
 			case PCRE_ERROR_NOMATCH:
-				printf("Damn, no match in http_extend\n");
+				fprintf(stderr,"Damn, no match in http_extend\n");
 				break;
 				/*
 				   Handle other special cases if you like
 				 */
 			default:
-				printf("Matching error %d\n", rc);
+				fprintf(stderr,"Matching error %d\n", rc);
 				break;
 			}
 		}
@@ -383,17 +399,26 @@ int main(int argc, char *argv[]) {
 	if(rc == 2) {
 		if (status_only == true){
 			printf("1");	
+                        if (verbose_level > 1){
+				fprintf(stderr,"returned: '1'\n");	
+			}
 		}else if (measure_time == true){
-         gettimeofday(&tvEnd, NULL);
-         timeval_subtract(&tvDiff, &tvEnd, &tvBegin);
-         printf("%ld.%06ld", tvDiff.tv_sec, tvDiff.tv_usec);
-      }else{
+         		gettimeofday(&tvEnd, NULL);
+         		timeval_subtract(&tvDiff, &tvEnd, &tvBegin);
+         		printf("%ld.%06ld", tvDiff.tv_sec, tvDiff.tv_usec);
+                        if (verbose_level > 1){
+         			fprintf(stderr,"returned: '%ld.%06ld'\n", tvDiff.tv_sec, tvDiff.tv_usec);
+			}
+      		}else{
 			char *substring_start = NULL;
 			int substring_length = 0;
 			i = 1;
 			substring_start = wr_buf + ovector[2 * i];
 			substring_length = ovector[2 * i + 1] - ovector[2 * i];
-			printf("%.*s\n", substring_length, substring_start);
+			printf("%.*s", substring_length, substring_start);
+                        if (verbose_level > 1){
+         			fprintf(stderr,"returned: '%.*s'\n", substring_length, substring_start);
+			}
 		}
 	}
 
