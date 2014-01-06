@@ -8,8 +8,8 @@ It can be used as an external check for the zabbix monitoring system.
 This tool is written in c, therefore it creates very minimal overhead when Zabbix calls this tool as "External check".
 
 Zabbix is already capable to monitor via the http protocol - the reasons for using this tool are:
- * Zabbix web scenarios cannot be executed on proxies
- * Zabbix is not capable to parse a value out of a website
+ * Zabbix web scenarios cannot be executed on proxies (Zabbix < 2.0)
+ * Zabbix is not capable to parse a value out of a website without using a agent
  * Zabbix is not capable to set a host header
  * Zabbix is not capable to ignore ssl errors
 
