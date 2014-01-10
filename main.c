@@ -315,16 +315,16 @@ int main(int argc, char *argv[]) {
 	/* Stop execution here if only status is needed */
 	if ((ret != 0) || (fail_on_curl_error == true)){
 		if (status_only == true){
-			printf("0");	
-                        if (verbose_level > 1){
-         			fprintf(stderr,"returned: '0'\n");
-			}
-      		}else if (measure_time == true){
-			printf("0.0");	
-                        if (verbose_level > 1){
-         			fprintf(stderr,"returned: '0.0'\n");
-			}
-      		}
+            printf("0");	
+            if (verbose_level > 1){
+                fprintf(stderr,"returned: '0'\n");
+            }
+     	 }else if (measure_time == true){
+            printf("0.0");	
+            if (verbose_level > 1){
+                fprintf(stderr,"returned: '0.0'\n");
+            }
+     	 }
 		exit(EXIT_FAILURE);
 	}
 
@@ -340,7 +340,7 @@ int main(int argc, char *argv[]) {
 
 	   printf("%d",time_left);
 
-           if (verbose_level > 1){
+      if (verbose_level > 1){
            	fprintf(stderr,"returned: '%d'\n",time_left);
 	   }
 
