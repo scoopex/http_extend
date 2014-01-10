@@ -9,7 +9,7 @@ This tool is written in c, therefore it creates very minimal overhead when Zabbi
 
 Zabbix is already capable to monitor via the http protocol - the reasons for using this tool are:
  * Zabbix web scenarios cannot be executed on proxies (Zabbix < 2.0)
- * Zabbix is not capable to parse a value out of a website without using a agent
+ * Zabbix is not capable to parse a value out of a website without using a agent (see also web.page.regexp[])
  * Zabbix is not capable to set a host header
  * Zabbix is not capable to ignore ssl errors
 
@@ -45,6 +45,7 @@ Usage
 Features:
 ```
 $ ./http_extend 
+This program needs arguments....
 
 http_extend,1.x fetch http urls and extract values
 http_extend [-?] [-V] [-v] [-u URL] [-r PCRE-REGEX]
@@ -53,8 +54,9 @@ http_extend [-?] [-V] [-v] [-u URL] [-r PCRE-REGEX]
   -V              print version and exit
 
   -v              set verbose flag (repeat for more output)
+  -a              use the entire http/https response for contect parsing (i.e. headers)
   -l              follow location redirects
-  -i              ignore ssl certificat verification
+  -i              ignore ssl certificate verification
   -f              fail request on curl errors (receive buffer of 5242880 bytes exceded, http-errors, ..)
   -s              provide only the status of the request (zabbix values: 1 = OK, 0 = NOT OK, )
   -m              provide the total delivery time of the request in seconds (zabbix values: >0.0 = OK (seconds), 0.0 = NOT OK)
@@ -63,7 +65,6 @@ http_extend [-?] [-V] [-v] [-u URL] [-r PCRE-REGEX]
   -t mseconds     Timeout of curl request in 1/1000 seconds (default: 5000 milliseconds)
   -r PCRE-REGEX   Specify the matching regex
   -h HOSTNAME     Specify the host header
-
 ```
 
 Examples:
@@ -85,7 +86,7 @@ Gather data from a apache-server-status page and add it as an measure to zabbix.
 Description........: Apache Requests
 Type...............: External check
 Key Zabbix 1.8.....: http_extend[-t 5000 -u "https://{HOSTNAME}/server-status?auto" -r "Total Accesses: (\d+)"]
-Key Zabbix 2.0.....: http_extend[-t,5000,-u,"https://{HOSTNAME}/server-status?auto",-r,"Total Accesses: (\d+)"]
+Key Zabbix 2.x.....: http_extend[-t,5000,-u,"https://{HOSTNAME}/server-status?auto",-r,"Total Accesses: (\d+)"]
 Type of information: Numeric (unsigned)
 Data type..........: Decimal
 Update interval....: 300
@@ -124,8 +125,7 @@ More information can be found in documentation: https://www.zabbix.com/documenta
 
 Missing features
 ----------------
-- [ ] Fetch the remaining days of validness of ssl certificates
-- [ ] Measure Time-To-First-Byte
+- n/a
 
 Licence and Authors
 -------------------
