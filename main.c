@@ -416,10 +416,8 @@ int main(int argc, char *argv[]) {
 			i = 1;
 			substring_start = wr_buf + ovector[2 * i];
 			substring_length = ovector[2 * i + 1] - ovector[2 * i];
-			printf("%.*s", substring_length, substring_start);
-         if (verbose_level > 1){
-         			fprintf(stderr,"parsing returned: '%.*s'\n", substring_length, substring_start);
-			}
+         printf("%.*s", substring_length, substring_start);
+         fprintf(stderr,"parsing returned: '%.*s'\n", substring_length, substring_start);
 		}
 	}
 

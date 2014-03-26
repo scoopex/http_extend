@@ -35,6 +35,8 @@ echo "*** TESTS"
 assertSuccess './http_extend -v -s -u http://www.google.de -r "(.*body.*)"'
 assertSuccess './http_extend -s -u http://www.google.de -r "(.*body.*)"'
 assertSuccess './http_extend -m -u http://www.google.de -r "(.*body.*)"'
+assertSuccess './http_extend -u http://www.google.de -r ".*bo(d)y.*"|grep "^d$"'
+
 assertFail './http_extend -t 1 -m -u http://www.google.de -r "(.*body.*)"'
 assertFail './http_extend -m -u http://www.google.de -r "(.*bodyAAA.*)"'
 echo
