@@ -289,7 +289,7 @@ int main(int argc, char *argv[]) {
 
 	/* Tell curl the URL of the file we're going to retrieve */
 	curl_easy_setopt(curl, CURLOPT_URL, url);
-   	curl_easy_setopt(curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5");
+  	curl_easy_setopt(curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5");
 
 	/* Tell curl that we'll receive data to the function write_data, and
 	 * also provide it with a context pointer for our error return.
@@ -363,6 +363,7 @@ int main(int argc, char *argv[]) {
 				   0,			/* default options */
 				   ovector,		/* output vector for substring information */
 				   OVECCOUNT);	/* number of elements in the output vector */
+
 	if(verbose_level > 2) {
 		fprintf(stderr, "out: %s\n", wr_buf);
 	}
@@ -371,15 +372,15 @@ int main(int argc, char *argv[]) {
 	if(rc < 0) {
 		if (status_only == true){
 			printf("0");	
-                        if (verbose_level > 1){
+         if (verbose_level > 1){
          			fprintf(stderr,"returned: '0'\n");
 			}
 		}else if (measure_time == true){
 			printf("0.0");	
-                        if (verbose_level > 1){
+         if (verbose_level > 1){
          			fprintf(stderr,"returned: '0.0'\n");
 			}
-      		}else{
+   	}else{
 			switch (rc) {
 			case PCRE_ERROR_NOMATCH:
 				fprintf(stderr,"Damn, no match in http_extend\n");
@@ -399,25 +400,25 @@ int main(int argc, char *argv[]) {
 	if(rc == 2) {
 		if (status_only == true){
 			printf("1");	
-                        if (verbose_level > 1){
+         if (verbose_level > 1){
 				fprintf(stderr,"returned: '1'\n");	
 			}
 		}else if (measure_time == true){
          		gettimeofday(&tvEnd, NULL);
          		timeval_subtract(&tvDiff, &tvEnd, &tvBegin);
          		printf("%ld.%06ld", tvDiff.tv_sec, tvDiff.tv_usec);
-                        if (verbose_level > 1){
-         			fprintf(stderr,"returned: '%ld.%06ld'\n", tvDiff.tv_sec, tvDiff.tv_usec);
-			}
-      		}else{
+               if (verbose_level > 1){
+         			fprintf(stderr,"measure time returned: '%ld.%06ld'\n", tvDiff.tv_sec, tvDiff.tv_usec);
+			      }
+     	}else{
 			char *substring_start = NULL;
 			int substring_length = 0;
 			i = 1;
 			substring_start = wr_buf + ovector[2 * i];
 			substring_length = ovector[2 * i + 1] - ovector[2 * i];
 			printf("%.*s", substring_length, substring_start);
-                        if (verbose_level > 1){
-         			fprintf(stderr,"returned: '%.*s'\n", substring_length, substring_start);
+         if (verbose_level > 1){
+         			fprintf(stderr,"parsing returned: '%.*s'\n", substring_length, substring_start);
 			}
 		}
 	}
