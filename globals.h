@@ -11,7 +11,7 @@
 /* TODO: document these defines */
 #define MAX_BUF   5242880
 #define OVECCOUNT 6				/* should be a multiple of 3 */
-#define TIMEOUT 5000				
+#define TIMEOUT 5000
 
 /* http://curl.haxx.se/libcurl/c/libcurl-tutorial.html */
 
