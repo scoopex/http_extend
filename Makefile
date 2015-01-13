@@ -8,7 +8,7 @@ PKG_LDADD=$(shell pkg-config --libs-only-l --libs-only-other $(PKG_CONFIG))
 PKG_LDADD_STATIC=$(shell pkg-config --static --libs-only-l --libs-only-other $(PKG_CONFIG))
 
 # overload this, if needed
-CC = gcc-4.4
+CC = gcc
 
 CFLAGS=	-O2 -fno-strict-aliasing -pipe \
 	-W -Wall -ansi -pedantic -Wbad-function-cast -Wcast-align \
@@ -28,7 +28,7 @@ OBJECTS=main.o callback.o
 	@$(CC) -MM $< | sed -e 's,:, $@:,' >$@
 
 %.o: %.c
-	$(CC) -c $(CFLAGS) $(PKG_CFLAGS) -o $@ $<
+	$(CC) -c -o $@ $< $(CFLAGS) $(PKG_CFLAGS)
 
 .PHONY: default static all
 default: http_extend
@@ -38,10 +38,10 @@ static:
 all: default static
 
 http_extend: $(OBJECTS)
-	$(CC) $(LDFLAGS) $(PKG_LDFLAGS) -o $@ $(LDADD) $(PKG_LDADD) $^
+	$(CC) -o $@ $^ $(LDADD) $(PKG_LDADD) $(LDFLAGS) $(PKG_LDFLAGS)
 
 http_extend-static: $(OBJECTS)
-	$(CC) $(LDFLAGS_STATIC) $(PKG_LDFLAGS_STATIC) -o $@ $(LDADD_STATIC) $(PKG_LDADD_STATIC) $^
+	$(CC) -o $@ $^ $(LDADD_STATIC) $(PKG_LDADD_STATIC) $(LDFLAGS_STATIC) $(PKG_LDFLAGS_STATIC)
 
 ifneq ($(MAKECMDGOALS),clean)
 -include $(OBJECTS:.o=.d)
