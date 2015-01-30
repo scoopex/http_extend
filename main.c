@@ -382,15 +382,13 @@ int main(int argc, char *argv[]) {
             }
         } else {
             switch (rc) {
-                case PCRE_ERROR_NOMATCH:
-                    fprintf(stderr,"Damn, no match in http_extend\n");
-                    break;
-                    /*
-                       Handle other special cases if you like
-                     */
-                default:
-                    fprintf(stderr,"Matching error %d\n", rc);
-                    break;
+                case PCRE_ERROR_NOMATCH      : fprintf(stderr,"String did not match the pattern\n");        break;
+                case PCRE_ERROR_NULL         : fprintf(stderr,"Something was null\n");                      break;
+                case PCRE_ERROR_BADOPTION    : fprintf(stderr,"A bad option was passed\n");                 break;
+                case PCRE_ERROR_BADMAGIC     : fprintf(stderr,"Magic number bad (compiled re corrupt?)\n"); break;
+                case PCRE_ERROR_UNKNOWN_NODE : fprintf(stderr,"Something kooky in the compiled re\n");      break;
+                case PCRE_ERROR_NOMEMORY     : fprintf(stderr,"Ran out of memory\n");                       break;
+                default                      : fprintf(stderr,"Matching error %d\n", rc);                   break;
             }
         }
         pcre_free(re);          /* Release memory used for the compiled pattern */
@@ -420,7 +418,6 @@ int main(int argc, char *argv[]) {
             fprintf(stderr,"parsing returned: '%.*s'\n", substring_length, substring_start);
         }
     }
-
     curl_easy_cleanup(curl);
 
     exit(EXIT_SUCCESS);
