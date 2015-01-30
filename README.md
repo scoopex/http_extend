@@ -31,7 +31,7 @@ On Ubuntu just do
 ```
 git clone git://github.com/digitalmediacenter/http_extend.git
 cd http_extend
-sudo apt-get install build-essential libpcre3-dev libcurl4-openssl-dev
+sudo apt-get install build-essential libpcre3-dev libcurl4-openssl-dev libssl-dev
 make
 # Install to /etc/zabbix/externalscripts
 make install
