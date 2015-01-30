@@ -388,7 +388,7 @@ int main(int argc, char *argv[]) {
                    OVECCOUNT);  /* number of elements in the output vector */
 
     if(verbose_level > 2) {
-        fprintf(stderr, "out: %s\n", wr_buf);
+        fprintf(stderr, "out: >>>%s<<< [%i bytes]\n", wr_buf, wr_index);
     }
 
     /* Evaluate the match and output status */
