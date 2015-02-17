@@ -81,6 +81,7 @@ void print_help(int exval) {
         fprintf(stderr,"  -u URL          Specify the url to fetch\n");
         fprintf(stderr,"  -t mseconds     Timeout of curl request in 1/1000 seconds (default: %i milliseconds)\n",TIMEOUT);
         fprintf(stderr,"  -r PCRE-REGEX   Specify the matching regex\n");
+        fprintf(stderr,"  -M              set regex MULTILINE option\n");
         fprintf(stderr,"  -h HOSTNAME     Specify the host header\n\n");
     }
     exit(exval);
@@ -139,6 +140,7 @@ int main(int argc, char *argv[]) {
     int time_left;
 
     pcre *re;
+    int pcre_opts=0;
     const char *error;
     int erroffset;
     int ovector[OVECCOUNT];
@@ -164,7 +166,7 @@ int main(int argc, char *argv[]) {
         print_help(1);
     }
 
-    while((opt = getopt(argc, argv, "?Vfcamlsvt:u:h:r:i")) != -1) {
+    while((opt = getopt(argc, argv, "?VfcamMlsvt:u:h:r:i")) != -1) {
         switch(opt) {
             case 'V':
                 fprintf(stderr,"%s %s\n\n", PACKAGE, VERSION);
@@ -186,6 +188,9 @@ int main(int argc, char *argv[]) {
                 break;
             case 'm':
                 measure_time = true;
+                break;
+            case 'M':
+                pcre_opts |= PCRE_MULTILINE;
                 break;
             case 'l':
                 follow_location = true;
@@ -251,6 +256,9 @@ int main(int argc, char *argv[]) {
              }
         if ( fail_on_curl_error == true ){
             fprintf(stderr, " -f");
+        }
+        if ( (pcre_opts & PCRE_MULTILINE) == PCRE_MULTILINE ){
+            fprintf(stderr, " -M");
         }
 
         if ( host_name != NULL ){
@@ -349,7 +357,7 @@ int main(int argc, char *argv[]) {
     }
 
     re = pcre_compile(regex,    /* the pattern */
-                      0,        /* default options */
+                      pcre_opts,        /* default options */
                       &error,   /* for error message */
                       &erroffset,   /* for error offset */
                       NULL);    /* use default character tables */
@@ -360,7 +368,7 @@ int main(int argc, char *argv[]) {
                    wr_buf,      /* the subject string */
                    wr_index,    /* the length of the subject */
                    0,           /* start at offset 0 in the subject */
-                   0,           /* default options */
+                   pcre_opts,           /* default options */
                    ovector,     /* output vector for substring information */
                    OVECCOUNT);  /* number of elements in the output vector */
 
