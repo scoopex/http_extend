@@ -133,6 +133,7 @@ int main(int argc, char *argv[]) {
     struct curl_slist *headers = NULL;
     int i;
     int curl_timeout = TIMEOUT;
+    char *curl_userpwd = NULL;
 
     ASN1_TIME * notAfter;
     time_t now;
@@ -166,7 +167,7 @@ int main(int argc, char *argv[]) {
         print_help(1);
     }
 
-    while((opt = getopt(argc, argv, "?VfcamMlsvt:u:h:r:i")) != -1) {
+    while((opt = getopt(argc, argv, "?VfcamMlsvp:t:u:h:r:i")) != -1) {
         switch(opt) {
             case 'V':
                 fprintf(stderr,"%s %s\n\n", PACKAGE, VERSION);
@@ -198,6 +199,9 @@ int main(int argc, char *argv[]) {
                 break;
             case 'f':
                 fail_on_curl_error = true;
+                break;
+            case 'p':
+                curl_userpwd = optarg;
                 break;
             case 'u':
                 url = optarg;
@@ -260,6 +264,9 @@ int main(int argc, char *argv[]) {
         if ( (pcre_opts & PCRE_MULTILINE) == PCRE_MULTILINE ){
             fprintf(stderr, " -M");
         }
+        if (curl_userpwd != NULL){
+            fprintf(stderr, " -p %s", curl_userpwd);
+        }
 
         if ( host_name != NULL ){
             fprintf(stderr, " -h %s",host_name);
@@ -280,7 +287,13 @@ int main(int argc, char *argv[]) {
             fprintf(stderr, ",\"-l\"");
              }
         if ( fail_on_curl_error == true ){
-        fprintf(stderr, ",\"-f\"");
+            fprintf(stderr, ",\"-f\"");
+        }
+        if ( (pcre_opts & PCRE_MULTILINE) == PCRE_MULTILINE ){
+            fprintf(stderr, ",\"-M\"");
+        }
+        if (curl_userpwd != NULL){
+            fprintf(stderr, ",\"-p\",\"%s\"", curl_userpwd);
         }
 
         if ( host_name != NULL ){
@@ -305,6 +318,8 @@ int main(int argc, char *argv[]) {
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *) &wr_error);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, curl_timeout);
+
+    curl_easy_setopt(curl, CURLOPT_USERPWD, curl_userpwd);
 
     gettimeofday(&tvBegin, NULL);
     /* Initialize certificate array*/
@@ -368,7 +383,7 @@ int main(int argc, char *argv[]) {
                    wr_buf,      /* the subject string */
                    wr_index,    /* the length of the subject */
                    0,           /* start at offset 0 in the subject */
-                   pcre_opts,           /* default options */
+                   0,           /* default options */
                    ovector,     /* output vector for substring information */
                    OVECCOUNT);  /* number of elements in the output vector */
 
