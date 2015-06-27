@@ -20,7 +20,7 @@ char wr_buf[MAX_BUF + 1];
 int wr_index;
 int wr_error;
 void print_help(int exval);
-void print_arguments(int argc, char *argv[]);
+void print_error_with_arguments(int argc, char *argv[],const char *msg);
 int timeval_subtract(struct timeval *result, struct timeval *t2, struct timeval *t1);
 
 
