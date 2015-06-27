@@ -405,13 +405,13 @@ int main(int argc, char *argv[]) {
             }
         } else {
             switch (rc) {
-                case PCRE_ERROR_NOMATCH      : fprintf(stderr,"String did not match the pattern\n");        break;
-                case PCRE_ERROR_NULL         : fprintf(stderr,"Something was null\n");                      break;
-                case PCRE_ERROR_BADOPTION    : fprintf(stderr,"A bad option was passed\n");                 break;
-                case PCRE_ERROR_BADMAGIC     : fprintf(stderr,"Magic number bad (compiled re corrupt?)\n"); break;
-                case PCRE_ERROR_UNKNOWN_NODE : fprintf(stderr,"Something kooky in the compiled re\n");      break;
-                case PCRE_ERROR_NOMEMORY     : fprintf(stderr,"Ran out of memory\n");                       break;
-                default                      : fprintf(stderr,"Matching error %d\n", rc);                   break;
+                case PCRE_ERROR_NOMATCH      : print_arguments(argc, argv); fprintf(stderr,"String did not match the pattern\n");        break;
+                case PCRE_ERROR_NULL         : print_arguments(argc, argv); fprintf(stderr,"Something was null\n");                      break;
+                case PCRE_ERROR_BADOPTION    : print_arguments(argc, argv); fprintf(stderr,"A bad option was passed\n");                 break;
+                case PCRE_ERROR_BADMAGIC     : print_arguments(argc, argv); fprintf(stderr,"Magic number bad (compiled re corrupt?)\n"); break;
+                case PCRE_ERROR_UNKNOWN_NODE : print_arguments(argc, argv); fprintf(stderr,"Something kooky in the compiled re\n");      break;
+                case PCRE_ERROR_NOMEMORY     : print_arguments(argc, argv); fprintf(stderr,"Ran out of memory\n");                       break;
+                default                      : print_arguments(argc, argv); fprintf(stderr,"Matching error %d\n", rc);                   break;
             }
         }
         pcre_free(re);          /* Release memory used for the compiled pattern */
@@ -435,12 +435,18 @@ int main(int argc, char *argv[]) {
             int n;
             int start_parse = ovector[2];
             int end_parse = ovector[3];
-            fprintf(stderr, "parsing returned: ");
+	    if (verbose_level > 0){
+            	fprintf(stderr, "parsing returned: ");
+	    }
             for(n=start_parse; n<end_parse; n++) {
                 putchar(wr_buf[n]);
-                fprintf(stderr, "%c", wr_buf[n]);
+	    	if (verbose_level > 0){
+                	fprintf(stderr, "%c", wr_buf[n]);
+		}
             }
-            fprintf(stderr, "\n"); 
+	    if (verbose_level > 0){
+            	fprintf(stderr, "\n"); 
+	    }
         }
     }
     curl_easy_cleanup(curl);
