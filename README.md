@@ -138,7 +138,9 @@ Licence and Authors
 
 Additional authors are very welcome - just submit your patches as pull requests.
 
+ * Marc Schoechlin <ms@256bit.org>
  * Marc Schoechlin <marc.schoechlin@dmc.de>
+ * Marc Schoechlin <marc.schoechlin@breuninger.de>
  * Andreas Heil <andreas.heil@dmc.de>
 
 License - see: LICENSE.txt
