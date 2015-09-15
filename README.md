@@ -10,6 +10,8 @@ It can be used as an external check for the zabbix monitoring system.
 Http\_extend is written in c, so it creates very minimal overhead when Zabbix calls this tool as "External check".
 
 Though Zabbix is already capable of monitoring via HTTP, the reasons for using this tool are:
+(see also https://support.zabbix.com/browse/ZBXNEXT-989)
+
  * Zabbix web scenarios cannot be executed on proxies (Zabbix <= 2.0)
  * Zabbix cannot parse a value out of a website without using a agent (see also web.page.regexp[])
  * Zabbix cannot set HTTP headers
@@ -131,7 +133,13 @@ More information can be found in documentation: https://www.zabbix.com/documenta
 
 Missing features
 ----------------
-- n/a
+- isupport for parsing values from json documents
+  (i.e. by using https://stedolan.github.io/jq/)
+- caching of request responses beetween different calls to reduce request overhead
+  (i.e. use a shared memory segment and invalidate the cache after configurable amount of seconds)
+- convert this functionality to zabbix module
+  (see http://blog.zabbix.com/zabbix-2-2-features-part-10-support-of-loadable-modules/2379/ and
+  https://www.zabbix.com/documentation/2.2/manual/config/items/loadablemodules)
 
 Licence and Authors
 -------------------
