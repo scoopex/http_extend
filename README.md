@@ -121,25 +121,36 @@ See also subfolder "zabbix\_templates/".
 Tips / Good to know
 -------------------
 
-Timeout:
+## Timeout tuning:
 
-You may have to increase timeout in Zabbix server configuration for external check:
+You may have to increase timeout in Zabbix server configuration for external checks to ensure that the external check is not terminated by zabbix before the request is finished.
 ```
 Default:  3 seconds
 Max:     30 seconds
 ```
-
 More information can be found in documentation: https://www.zabbix.com/documentation/2.2/manual/appendix/config/zabbix_server
+
+## Degugging not working items:
+
+Debug problems in zabbix by the following procedure:
+- add multiple "-v" parameters to the zabbix item
+- watch the zabbix-server or zabbix-proxy logfiles
+  (the logfile will show the parsed value, call parameters, ...)
+- re-execute the check on the commandline
+- modify the item configuration
+
 
 Missing features
 ----------------
-- isupport for parsing values from json documents
+- support for parsing values from json documents
   (i.e. by using https://stedolan.github.io/jq/)
 - caching of request responses beetween different calls to reduce request overhead
   (i.e. use a shared memory segment and invalidate the cache after configurable amount of seconds)
 - convert this functionality to zabbix module
   (see http://blog.zabbix.com/zabbix-2-2-features-part-10-support-of-loadable-modules/2379/ and
   https://www.zabbix.com/documentation/2.2/manual/config/items/loadablemodules)
+- implement a TERM handler which provides a information on stderr that the command is terminated by zabbix
+  (if timout is reached)
 
 Licence and Authors
 -------------------
