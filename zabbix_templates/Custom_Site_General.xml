@@ -1,126 +1,387 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<zabbix_export version="1.0" date="15.04.13" time="07.05">
-  <hosts>
-    <host name="Custom - Site - General">
-      <proxy_hostid>0</proxy_hostid>
-      <useip>1</useip>
-      <dns></dns>
-      <ip>127.0.0.1</ip>
-      <port>10050</port>
-      <status>3</status>
-      <useipmi>0</useipmi>
-      <ipmi_ip>127.0.0.1</ipmi_ip>
-      <ipmi_port>623</ipmi_port>
-      <ipmi_authtype>0</ipmi_authtype>
-      <ipmi_privilege>2</ipmi_privilege>
-      <ipmi_username></ipmi_username>
-      <ipmi_password></ipmi_password>
-      <groups>
-        <group>Templates</group>
-      </groups>
-      <triggers>
+<zabbix_export>
+    <version>2.0</version>
+    <date>2016-12-04T19:26:21Z</date>
+    <groups>
+        <group>
+            <name>Templates</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Custom - Site - General</template>
+            <name>Custom - Site - General</name>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>Site - General</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>Certificate valid days</name>
+                    <type>10</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,https://{HOST.DNS}/{$SITE_PATH_CHECK},-c]</key>
+                    <delay>43200</delay>
+                    <history>90</history>
+                    <trends>0</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units>days</units>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Site - General</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Frontpage HTTP</name>
+                    <type>10</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,http://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s]</key>
+                    <delay>120</delay>
+                    <history>90</history>
+                    <trends>0</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Site - General</name>
+                        </application>
+                    </applications>
+                    <valuemap>
+                        <name>Service state</name>
+                    </valuemap>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Frontpage HTTPS</name>
+                    <type>10</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,https://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s]</key>
+                    <delay>120</delay>
+                    <history>90</history>
+                    <trends>0</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Site - General</name>
+                        </application>
+                    </applications>
+                    <valuemap>
+                        <name>Service state</name>
+                    </valuemap>
+                    <logtimefmt/>
+                </item>
+            </items>
+            <discovery_rules/>
+            <macros>
+                <macro>
+                    <macro>{$SITE_PATH_CHECK}</macro>
+                    <value/>
+                </macro>
+                <macro>
+                    <macro>{$SSL_CERT_VALID_DAYS}</macro>
+                    <value>20</value>
+                </macro>
+                <macro>
+                    <macro>{$SSL_CERT_VALID_DAYS_ALARM}</macro>
+                    <value>10</value>
+                </macro>
+                <macro>
+                    <macro>{$TIMEOUT_HTTP_EXTEND}</macro>
+                    <value>5000</value>
+                </macro>
+            </macros>
+            <templates/>
+            <screens>
+                <screen>
+                    <name>Custom - Site - General</name>
+                    <hsize>1</hsize>
+                    <vsize>2</vsize>
+                    <screen_items>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>900</width>
+                            <height>300</height>
+                            <x>0</x>
+                            <y>0</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>Custom - Site - General - Checks</name>
+                                <host>Custom - Site - General</host>
+                            </resource>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>900</width>
+                            <height>300</height>
+                            <x>0</x>
+                            <y>1</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>Custom - Site - General - Cerificate</name>
+                                <host>Custom - Site - General</host>
+                            </resource>
+                            <application/>
+                        </screen_item>
+                    </screen_items>
+                </screen>
+            </screens>
+        </template>
+    </templates>
+    <triggers>
         <trigger>
-          <description>Frontpage HTTP</description>
-          <type>0</type>
-          <expression>{Custom - Site - General:http_extend[-t {$TIMEOUT_HTTP_EXTEND} -l -u http://{HOST.DNS}/ -r '(&lt;body)' -s].count(#3,0,"eq")}=3</expression>
-          <url></url>
-          <status>0</status>
-          <priority>3</priority>
-          <comments></comments>
+            <expression>{Custom - Site - General:http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,http://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s].count(#3,0,&quot;eq&quot;)}=3</expression>
+            <name>Frontpage HTTP</name>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
         </trigger>
         <trigger>
-          <description>Frontpage HTTPS</description>
-          <type>0</type>
-          <expression>{Custom - Site - General:http_extend[-t {$TIMEOUT_HTTP_EXTEND} -l -u https://{HOST.DNS}/ -r '(&lt;body)' -s].count(#3,0,"eq")}=3</expression>
-          <url></url>
-          <status>0</status>
-          <priority>3</priority>
-          <comments></comments>
+            <expression>{Custom - Site - General:http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,http://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s].nodata(600)}=1</expression>
+            <name>Frontpage HTTP Nodata</name>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
         </trigger>
-      </triggers>
-      <items>
-        <item type="10" key="http_extend[-t {$TIMEOUT_HTTP_EXTEND} -l -u http://{HOST.DNS}/ -r '(&lt;body)' -s]" value_type="3">
-          <description>Frontpage HTTP</description>
-          <ipmi_sensor></ipmi_sensor>
-          <delay>120</delay>
-          <history>90</history>
-          <trends>365</trends>
-          <status>0</status>
-          <data_type>0</data_type>
-          <units></units>
-          <multiplier>0</multiplier>
-          <delta>0</delta>
-          <formula>0</formula>
-          <lastlogsize>0</lastlogsize>
-          <logtimefmt></logtimefmt>
-          <delay_flex></delay_flex>
-          <authtype>0</authtype>
-          <username></username>
-          <password></password>
-          <publickey></publickey>
-          <privatekey></privatekey>
-          <params></params>
-          <trapper_hosts></trapper_hosts>
-          <snmp_community></snmp_community>
-          <snmp_oid></snmp_oid>
-          <snmp_port>161</snmp_port>
-          <snmpv3_securityname></snmpv3_securityname>
-          <snmpv3_securitylevel>0</snmpv3_securitylevel>
-          <snmpv3_authpassphrase></snmpv3_authpassphrase>
-          <snmpv3_privpassphrase></snmpv3_privpassphrase>
-          <valuemapid>100100000000001</valuemapid>
-          <applications>
-            <application>Site - General</application>
-          </applications>
-        </item>
-        <item type="10" key="http_extend[-t {$TIMEOUT_HTTP_EXTEND} -l -u https://{HOST.DNS}/ -r '(&lt;body)' -s]" value_type="3">
-          <description>Frontpage HTTPS</description>
-          <ipmi_sensor></ipmi_sensor>
-          <delay>120</delay>
-          <history>90</history>
-          <trends>365</trends>
-          <status>0</status>
-          <data_type>0</data_type>
-          <units></units>
-          <multiplier>0</multiplier>
-          <delta>0</delta>
-          <formula>0</formula>
-          <lastlogsize>0</lastlogsize>
-          <logtimefmt></logtimefmt>
-          <delay_flex></delay_flex>
-          <authtype>0</authtype>
-          <username></username>
-          <password></password>
-          <publickey></publickey>
-          <privatekey></privatekey>
-          <params></params>
-          <trapper_hosts></trapper_hosts>
-          <snmp_community></snmp_community>
-          <snmp_oid></snmp_oid>
-          <snmp_port>161</snmp_port>
-          <snmpv3_securityname></snmpv3_securityname>
-          <snmpv3_securitylevel>0</snmpv3_securitylevel>
-          <snmpv3_authpassphrase></snmpv3_authpassphrase>
-          <snmpv3_privpassphrase></snmpv3_privpassphrase>
-          <valuemapid>100100000000001</valuemapid>
-          <applications>
-            <application>Site - General</application>
-          </applications>
-        </item>
-      </items>
-      <templates/>
-      <graphs/>
-      <macros>
-        <macro>
-          <value>5000</value>
-          <name>{$TIMEOUT_HTTP_EXTEND}</name>
-        </macro>
-      </macros>
-    </host>
-  </hosts>
-  <dependencies>
-    <dependency description="Custom - Site - General:Frontpage HTTPS">
-      <depends>Custom - Site - General:Frontpage HTTP</depends>
-    </dependency>
-  </dependencies>
+        <trigger>
+            <expression>{Custom - Site - General:http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,https://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s].count(#5,0,&quot;eq&quot;)}=3</expression>
+            <name>Frontpage HTTPS</name>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description/>
+            <type>0</type>
+            <dependencies>
+                <dependency>
+                    <name>Frontpage HTTP</name>
+                    <expression>{Custom - Site - General:http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,http://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s].count(#3,0,&quot;eq&quot;)}=3</expression>
+                </dependency>
+            </dependencies>
+        </trigger>
+        <trigger>
+            <expression>{Custom - Site - General:http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,https://{HOST.DNS}/{$SITE_PATH_CHECK},-c].last()}&lt;{$SSL_CERT_VALID_DAYS}</expression>
+            <name>Frontpage HTTPS Certificate Valid &lt; {$SSL_CERT_VALID_DAYS} days ({ITEM.LASTVALUE1} left)</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <dependencies>
+                <dependency>
+                    <name>Frontpage HTTPS Certificate Valid Nodata</name>
+                    <expression>{Custom - Site - General:http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,https://{HOST.DNS}/{$SITE_PATH_CHECK},-c].nodata(259200)}=1</expression>
+                </dependency>
+            </dependencies>
+        </trigger>
+        <trigger>
+            <expression>{Custom - Site - General:http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,https://{HOST.DNS}/{$SITE_PATH_CHECK},-c].nodata(259200)}=1</expression>
+            <name>Frontpage HTTPS Certificate Valid Nodata</name>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{Custom - Site - General:http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,https://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s].nodata(600)}=1</expression>
+            <name>Frontpage HTTPS Nodata</name>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description/>
+            <type>0</type>
+            <dependencies>
+                <dependency>
+                    <name>Frontpage HTTP</name>
+                    <expression>{Custom - Site - General:http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,http://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s].count(#3,0,&quot;eq&quot;)}=3</expression>
+                </dependency>
+            </dependencies>
+        </trigger>
+    </triggers>
+    <graphs>
+        <graph>
+            <name>Custom - Site - General - Cerificate</name>
+            <width>900</width>
+            <height>300</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>1</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>Custom - Site - General</host>
+                        <key>http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,https://{HOST.DNS}/{$SITE_PATH_CHECK},-c]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>Custom - Site - General - Checks</name>
+            <width>900</width>
+            <height>300</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>1</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>1</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>1</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>Custom - Site - General</host>
+                        <key>http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,http://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>1</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>Custom - Site - General</host>
+                        <key>http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,https://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+    </graphs>
 </zabbix_export>
