@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>3.2</version>
+    <date>2016-12-04T19:35:42Z</date>
+    <groups>
+        <group>
+            <name>Templates</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Custom - Site - General</template>
+            <name>Custom - Site - General</name>
+            <description/>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>Site - General</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>Frontpage HTTP</name>
+                    <type>10</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,http://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s]</key>
+                    <delay>120</delay>
+                    <history>90</history>
+                    <trends>0</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Site - General</name>
+                        </application>
+                    </applications>
+                    <valuemap>
+                        <name>Service state</name>
+                    </valuemap>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Certificate valid days</name>
+                    <type>10</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,https://{HOST.DNS}/{$SITE_PATH_CHECK},-c]</key>
+                    <delay>43200</delay>
+                    <history>90</history>
+                    <trends>0</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units>days</units>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Site - General</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Frontpage HTTPS</name>
+                    <type>10</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,https://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s]</key>
+                    <delay>120</delay>
+                    <history>90</history>
+                    <trends>0</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Site - General</name>
+                        </application>
+                    </applications>
+                    <valuemap>
+                        <name>Service state</name>
+                    </valuemap>
+                    <logtimefmt/>
+                </item>
+            </items>
+            <discovery_rules/>
+            <httptests/>
+            <macros>
+                <macro>
+                    <macro>{$SITE_PATH_CHECK}</macro>
+                    <value/>
+                </macro>
+                <macro>
+                    <macro>{$SSL_CERT_VALID_DAYS}</macro>
+                    <value>20</value>
+                </macro>
+                <macro>
+                    <macro>{$SSL_CERT_VALID_DAYS_ALARM}</macro>
+                    <value>10</value>
+                </macro>
+                <macro>
+                    <macro>{$TIMEOUT_HTTP_EXTEND}</macro>
+                    <value>5000</value>
+                </macro>
+            </macros>
+            <templates/>
+            <screens>
+                <screen>
+                    <name>Custom - Site - General</name>
+                    <hsize>1</hsize>
+                    <vsize>2</vsize>
+                    <screen_items>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>900</width>
+                            <height>300</height>
+                            <x>0</x>
+                            <y>0</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>Custom - Site - General - Checks</name>
+                                <host>Custom - Site - General</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>900</width>
+                            <height>300</height>
+                            <x>0</x>
+                            <y>1</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>Custom - Site - General - Cerificate</name>
+                                <host>Custom - Site - General</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                    </screen_items>
+                </screen>
+            </screens>
+        </template>
+    </templates>
+    <triggers>
+        <trigger>
+            <expression>{Custom - Site - General:http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,http://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s].count(#3,0,&quot;eq&quot;)}=3</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>Frontpage HTTP</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description/>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies/>
+            <tags/>
+        </trigger>
+        <trigger>
+            <expression>{Custom - Site - General:http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,http://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s].nodata(600)}=1</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>Frontpage HTTP Nodata</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description/>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies/>
+            <tags/>
+        </trigger>
+        <trigger>
+            <expression>{Custom - Site - General:http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,https://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s].count(#5,0,&quot;eq&quot;)}=3</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>Frontpage HTTPS</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description/>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies>
+                <dependency>
+                    <name>Frontpage HTTP</name>
+                    <expression>{Custom - Site - General:http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,http://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s].count(#3,0,&quot;eq&quot;)}=3</expression>
+                    <recovery_expression/>
+                </dependency>
+            </dependencies>
+            <tags/>
+        </trigger>
+        <trigger>
+            <expression>{Custom - Site - General:http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,https://{HOST.DNS}/{$SITE_PATH_CHECK},-c].last()}&lt;{$SSL_CERT_VALID_DAYS}</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>Frontpage HTTPS Certificate Valid &lt; {$SSL_CERT_VALID_DAYS} days ({ITEM.LASTVALUE1} left)</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies>
+                <dependency>
+                    <name>Frontpage HTTPS Certificate Valid Nodata</name>
+                    <expression>{Custom - Site - General:http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,https://{HOST.DNS}/{$SITE_PATH_CHECK},-c].nodata(259200)}=1</expression>
+                    <recovery_expression/>
+                </dependency>
+            </dependencies>
+            <tags/>
+        </trigger>
+        <trigger>
+            <expression>{Custom - Site - General:http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,https://{HOST.DNS}/{$SITE_PATH_CHECK},-c].nodata(259200)}=1</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>Frontpage HTTPS Certificate Valid Nodata</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description/>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies/>
+            <tags/>
+        </trigger>
+        <trigger>
+            <expression>{Custom - Site - General:http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,https://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s].nodata(600)}=1</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>Frontpage HTTPS Nodata</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description/>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies>
+                <dependency>
+                    <name>Frontpage HTTP</name>
+                    <expression>{Custom - Site - General:http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,http://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s].count(#3,0,&quot;eq&quot;)}=3</expression>
+                    <recovery_expression/>
+                </dependency>
+            </dependencies>
+            <tags/>
+        </trigger>
+    </triggers>
+    <graphs>
+        <graph>
+            <name>Custom - Site - General - Cerificate</name>
+            <width>900</width>
+            <height>300</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>1</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>Custom - Site - General</host>
+                        <key>http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,https://{HOST.DNS}/{$SITE_PATH_CHECK},-c]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>Custom - Site - General - Checks</name>
+            <width>900</width>
+            <height>300</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>1</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>1</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>1</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>Custom - Site - General</host>
+                        <key>http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,http://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>1</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>Custom - Site - General</host>
+                        <key>http_extend[&quot;{HOST.CONN}&quot;,-t,{$TIMEOUT_HTTP_EXTEND},-l,-u,https://{HOST.DNS}/{$SITE_PATH_CHECK},-r,&quot;(&lt;body)&quot;,-s]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+    </graphs>
+    <value_maps>
+        <value_map>
+            <name>Service state</name>
+            <mappings>
+                <mapping>
+                    <value>0</value>
+                    <newvalue>Down</newvalue>
+                </mapping>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>Up</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+    </value_maps>
+</zabbix_export>

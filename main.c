@@ -87,10 +87,10 @@ void print_help(int exval) {
     exit(exval);
 }
 
-void print_arguments(int argc, char *argv[]) {
+void print_error_with_arguments(int argc, char *argv[],const char *msg) {
     int i;
     if (isatty(0) != 1) {
-        fprintf(stderr,"ARGUMENTS: ");
+        fprintf(stderr,"<%s> ",msg);
         for (i = 0; i < argc; i++){
             fprintf(stderr,"%s ",argv[i]);
         }
@@ -163,7 +163,6 @@ int main(int argc, char *argv[]) {
      */
     if(argc == 1) {
         fprintf(stderr, "This program needs arguments....\n\n");
-        print_arguments(argc, argv);
         print_help(1);
     }
 
@@ -224,12 +223,12 @@ int main(int argc, char *argv[]) {
                 break;
             case ':':
                 fprintf(stderr, "%s: Error - Option `%c' needs a value\n\n", PACKAGE, optopt);
-                print_arguments(argc, argv);
+                print_error_with_arguments(argc, argv,"missing argument");
                 print_help(1);
                 break;
             case '?':
                 fprintf(stderr, "%s: Error - No such option: `%c'\n", PACKAGE, optopt);
-                print_arguments(argc, argv);
+                print_error_with_arguments(argc, argv,"no such option");
                 print_help(1);
         }
     }
@@ -304,7 +303,7 @@ int main(int argc, char *argv[]) {
 
 
     if (((url == NULL) || (regex == NULL)) && (ssl_valid_date == false)){
-        print_arguments(argc, argv);
+        print_error_with_arguments(argc, argv,"missing arguments");
         print_help(EXIT_FAILURE);
     }
 
@@ -405,13 +404,13 @@ int main(int argc, char *argv[]) {
             }
         } else {
             switch (rc) {
-                case PCRE_ERROR_NOMATCH      : fprintf(stderr,"String did not match the pattern\n");        break;
-                case PCRE_ERROR_NULL         : fprintf(stderr,"Something was null\n");                      break;
-                case PCRE_ERROR_BADOPTION    : fprintf(stderr,"A bad option was passed\n");                 break;
-                case PCRE_ERROR_BADMAGIC     : fprintf(stderr,"Magic number bad (compiled re corrupt?)\n"); break;
-                case PCRE_ERROR_UNKNOWN_NODE : fprintf(stderr,"Something kooky in the compiled re\n");      break;
-                case PCRE_ERROR_NOMEMORY     : fprintf(stderr,"Ran out of memory\n");                       break;
-                default                      : fprintf(stderr,"Matching error %d\n", rc);                   break;
+                case PCRE_ERROR_NOMATCH      : print_error_with_arguments(argc, argv,"String did not match the pattern");					 break;
+                case PCRE_ERROR_NULL         : print_error_with_arguments(argc, argv,"Something was null");							 break;
+                case PCRE_ERROR_BADOPTION    : print_error_with_arguments(argc, argv,"A bad option was passed");						 break;
+                case PCRE_ERROR_BADMAGIC     : print_error_with_arguments(argc, argv,"Magic number bad (compiled re corrupt?)");				 break;
+                case PCRE_ERROR_UNKNOWN_NODE : print_error_with_arguments(argc, argv,"Something kooky in the compiled re");					 break;
+                case PCRE_ERROR_NOMEMORY     : print_error_with_arguments(argc, argv,"Ran out of memory");							 break;
+                default                      : print_error_with_arguments(argc, argv,"Matching error"); fprintf(stderr,"Errorcode: %d\n", rc);			 break;
             }
         }
         pcre_free(re);          /* Release memory used for the compiled pattern */
@@ -432,13 +431,21 @@ int main(int argc, char *argv[]) {
                 fprintf(stderr,"measure time returned: '%ld.%06ld'\n", tvDiff.tv_sec, tvDiff.tv_usec);
             }
         } else {
-            char *substring_start = NULL;
-            int substring_length = 0;
-            i = 1;
-            substring_start = wr_buf + ovector[2 * i];
-            substring_length = ovector[2 * i + 1] - ovector[2 * i];
-            printf("%.*s", substring_length, substring_start);
-            fprintf(stderr,"parsing returned: '%.*s'\n", substring_length, substring_start);
+            int n;
+            int start_parse = ovector[2];
+            int end_parse = ovector[3];
+	    if (verbose_level > 0){
+            	fprintf(stderr, "parsing returned: ");
+	    }
+            for(n=start_parse; n<end_parse; n++) {
+                putchar(wr_buf[n]);
+	    	if (verbose_level > 0){
+                	fprintf(stderr, "%c", wr_buf[n]);
+		}
+            }
+	    if (verbose_level > 0){
+            	fprintf(stderr, "\n"); 
+	    }
         }
     }
     curl_easy_cleanup(curl);
