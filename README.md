@@ -60,7 +60,7 @@ http_extend [-?] [-V] [-v] [-u URL] [-r PCRE-REGEX]
   -V              print version and exit
 
   -v              set verbose flag (repeat for more output)
-  -a              use the entire http/https response for contect parsing (i.e. headers)
+  -a              use the entire http/https response for content parsing (i.e. headers)
   -l              follow location redirects
   -i              ignore ssl certificate verification
   -f              fail request on curl errors (receive buffer of 5242880 bytes exceded, http-errors, ..)
