@@ -71,7 +71,7 @@ void print_help(int exval) {
         fprintf(stderr,"  -?              print this help and exit\n");
         fprintf(stderr,"  -V              print version and exit\n\n");
         fprintf(stderr,"  -v              set verbose flag (repeat for more output)\n");
-        fprintf(stderr,"  -a              use the entire http/https response for contect parsing (i.e. headers)\n");
+        fprintf(stderr,"  -a              use the entire http/https response for content parsing (i.e. headers)\n");
         fprintf(stderr,"  -l              follow location redirects\n");
         fprintf(stderr,"  -i              ignore ssl certificate verification\n");
         fprintf(stderr,"  -f              fail request on curl errors (receive buffer of %i bytes exceded, http-errors, ..)\n",MAX_BUF);
@@ -127,6 +127,7 @@ int main(int argc, char *argv[]) {
     int measure_time = false;
     int nossl_verify = false;
     int follow_location = false;
+
     int fail_on_curl_error = false;
     int ssl_valid_date = false;
 
@@ -471,7 +472,7 @@ int verify_callback(int preverify_ok, X509_STORE_CTX *x509_ctx) {
     if (depth < MAX_CERTS && !certificates[depth]) {
         certificates[depth] = cert;
         certificates_error[depth] = err;
-        cert->references++;
+        cert->references++; 
     }
   (void) preverify_ok;
   return 1;
