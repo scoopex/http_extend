@@ -122,7 +122,7 @@ int main(int argc, char *argv[]) {
     struct timeval tvBegin, tvEnd, tvDiff;
 
     /* Commandline switches */
-    int verbose_level=0;
+    int verbose_level = 0;
     int status_only = false;
     int measure_time = false;
     int nossl_verify = false;
@@ -218,6 +218,7 @@ int main(int argc, char *argv[]) {
                 break;
             case 'c':
                 ssl_valid_date = true;
+                break;
             case 'r':
                 regex = optarg;
                 break;
