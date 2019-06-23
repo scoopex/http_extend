@@ -354,7 +354,10 @@ int main(int argc, char *argv[]) {
 
     /* Get days until certificate expires */
     if(ssl_valid_date == true) {
-        if(ret!=0 || certificates[0]==0) {
+        if(ret != 0 || certificates[0] == 0) {
+            if (verbose_level > 0){
+                fprintf(stderr,"first certificate not set\n");
+            }
             exit(EXIT_FAILURE);
         }
         notAfter = X509_get_notAfter(certificates[0]);
