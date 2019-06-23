@@ -30,9 +30,8 @@ assertFail(){
  fi
 }
 
-
 echo "*** TESTS"
-assertSuccess './http_extend -l -u https://www.google.de -c'
+assertSuccess './http_extend -l -u https://www.google.de -ci -vv'
 assertSuccess './http_extend -v -l -u http://www.google.de -r "(.*body.*)"'
 assertSuccess './http_extend -s -l -u http://www.google.de -r "(.*body.*)"'
 assertSuccess './http_extend -l -m -u http://www.google.de -r "(.*body.*)"'

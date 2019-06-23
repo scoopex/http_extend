@@ -29,6 +29,31 @@ CURLcode sslctxfunc(CURL *curl, void *sslctx, void *parm);
 int verify_callback(int preverify_ok, X509_STORE_CTX *x509_ctx);
 void print_certificate(X509 *cert);
 
+
+/* Add certificate chain and errors to certs array */
+int verify_callback(int preverify_ok, X509_STORE_CTX *x509_ctx) {
+    X509 *cert = X509_STORE_CTX_get_current_cert(x509_ctx);
+    int depth = X509_STORE_CTX_get_error_depth(x509_ctx);
+    int err = X509_STORE_CTX_get_error(x509_ctx);
+    if (depth < MAX_CERTS && !certificates[depth]) {
+        certificates[depth] = cert;
+        certificates_error[depth] = err;
+        /* cert->references++;  */
+    }
+  (void) preverify_ok;
+  return 1;
+}
+
+CURLcode sslctxfunc(CURL *curl, void *sslctx, void *parm) {
+    (void)parm;
+    if(!curl) {
+        exit(EXIT_FAILURE);
+    }
+    SSL_CTX_set_verify(sslctx, SSL_VERIFY_PEER, verify_callback);
+    return CURLE_OK;
+}
+
+
 static time_t ASN1_GetTimeT(ASN1_TIME* atime)
 {
     struct tm t;
@@ -246,7 +271,13 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "%-17s %s\n",   "HOST HEADER", host_header);
         fprintf(stderr, "%-17s %i\n\n", "STATUS ONLY", status_only);
 
-        fprintf(stderr, "%-17s %s -t %i -u \"%s\" -r \"%s\"", "CMD ", PACKAGE, curl_timeout, url, regex);
+        fprintf(stderr, "%-17s %s -t %i -u \"%s\"", "CMD ", PACKAGE, curl_timeout, url);
+        if (regex != NULL){
+            fprintf(stderr, "-r \"%s\"", regex);
+        }
+        if ( ssl_valid_date == true ){
+            fprintf(stderr, " -c");
+        }
         if ( status_only == true ){
             fprintf(stderr, " -s");
         }
@@ -274,7 +305,14 @@ int main(int argc, char *argv[]) {
         }
         fprintf(stderr, "\n");
 
-        fprintf(stderr, "%-17s %s[\"-t\",\"%i\",\"-u\",\"%s\",\"-r\",\"%s\"", "ZABBIX 2.0 ITEM", PACKAGE, curl_timeout, url, regex);
+        fprintf(stderr, "%-17s %s[\"-t\",\"%i\",\"-u\",\"%s\"", "ZABBIX ITEM", PACKAGE, curl_timeout, url);
+        if (regex != NULL){
+            fprintf(stderr, "\"-r\",\"%s\"", regex);
+        }
+        if ( ssl_valid_date == true ){
+            fprintf(stderr, " \"-c\"");
+        }
+
         if ( status_only == true ){
             fprintf(stderr, ",\"-s\"");
         }
@@ -328,7 +366,12 @@ int main(int argc, char *argv[]) {
         certificates[i] = 0;
         certificates_error[i] = X509_V_OK;
     }
-    curl_easy_setopt(curl, CURLOPT_SSL_CTX_FUNCTION, sslctxfunc);
+    rc = curl_easy_setopt(curl, CURLOPT_SSL_CTX_FUNCTION, sslctxfunc);
+    if (rc != 0){
+      fprintf(stderr,"setting CURLOPT_SSL_CTX_FUNCTION failed with code %i\n",rc);
+      exit(EXIT_FAILURE);
+    }
+
     if(ssl_valid_date == true) {
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, false);
@@ -354,7 +397,13 @@ int main(int argc, char *argv[]) {
 
     /* Get days until certificate expires */
     if(ssl_valid_date == true) {
-        if(ret != 0 || certificates[0] == 0) {
+        if(ret != 0 ){
+           if (verbose_level > 0){
+                fprintf(stderr,"returncode not 0, %i\n", ret);
+           }
+           exit(EXIT_FAILURE);
+        }
+        if (certificates[0] == 0){
             if (verbose_level > 0){
                 fprintf(stderr,"first certificate not set\n");
             }
@@ -458,27 +507,5 @@ int main(int argc, char *argv[]) {
     exit(EXIT_SUCCESS);
 }
 
-CURLcode sslctxfunc(CURL *curl, void *sslctx, void *parm) {
-    (void)parm;
-    if(!curl) {
-        exit(EXIT_FAILURE);
-    }
-    SSL_CTX_set_verify(sslctx, SSL_VERIFY_PEER, verify_callback);
-    return CURLE_OK;
-}
-
-/* Add certificate chain and errors to certs array */
-int verify_callback(int preverify_ok, X509_STORE_CTX *x509_ctx) {
-    X509 *cert = X509_STORE_CTX_get_current_cert(x509_ctx);
-    int depth = X509_STORE_CTX_get_error_depth(x509_ctx);
-    int err = X509_STORE_CTX_get_error(x509_ctx);
-    if (depth < MAX_CERTS && !certificates[depth]) {
-        certificates[depth] = cert;
-        certificates_error[depth] = err;
-        cert->references++; 
-    }
-  (void) preverify_ok;
-  return 1;
-}
 
 /* vim:ai et ts=2 shiftwidth=2 expandtab tabstop=3 tw=120 */

@@ -29,15 +29,14 @@ Prerequisites:
  * C-compiler
  * GNU Make
  * libpcre
- * libcurl
- * libgnutls
+ * libopenssl
 
 On Ubuntu 18.04 just do
 (This will install the binary 'http\_extend' to /etc/zabbix/externalscripts):
 ```
 git clone git://github.com/scoopex/http_extend.git
 cd http_extend
-sudo apt-get install build-essential libpcre3-dev libcurl4-gnutls-dev
+sudo apt-get install build-essential libpcre3-dev libcurl4-openssl-dev libssl-dev
 make
 # Install to /etc/zabbix/externalscripts
 make install

@@ -31,7 +31,7 @@ OBJECTS=main.o callback.o
 	$(CC) -c -o $@ $< $(CFLAGS) $(PKG_CFLAGS)
 
 .PHONY: default static all
-default: http_extend
+default: http_extend test
 #static: http_extend-static
 static:
 	$(error static linking on SuSE is not possible due to lack of static libcurl)
