@@ -36,7 +36,7 @@ On Ubuntu 18.04 just do
 ```
 git clone git://github.com/scoopex/http_extend.git
 cd http_extend
-sudo apt-get install build-essential libpcre3-dev libcurl4-openssl-dev libssl-dev
+sudo apt-get install build-essential libpcre3-dev libcurl4-openssl-dev libssl-dev pkg-config
 make
 # Install to /etc/zabbix/externalscripts
 make install
