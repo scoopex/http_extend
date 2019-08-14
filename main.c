@@ -271,7 +271,7 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "%-17s %s\n",   "HOST HEADER", host_header);
         fprintf(stderr, "%-17s %i\n\n", "STATUS ONLY", status_only);
 
-        fprintf(stderr, "%-17s %s -t %i -u \"%s\"", "CMD ", PACKAGE, curl_timeout, url);
+        fprintf(stderr, "%-17s %s -t %i -u \"%s\" ", "CMD ", PACKAGE, curl_timeout, url);
         if (regex != NULL){
             fprintf(stderr, "-r \"%s\"", regex);
         }
@@ -305,7 +305,7 @@ int main(int argc, char *argv[]) {
         }
         fprintf(stderr, "\n");
 
-        fprintf(stderr, "%-17s %s[\"-t\",\"%i\",\"-u\",\"%s\"", "ZABBIX ITEM", PACKAGE, curl_timeout, url);
+        fprintf(stderr, "%-17s %s[\"-t\",\"%i\",\"-u\",\"%s\",", "ZABBIX ITEM", PACKAGE, curl_timeout, url);
         if (regex != NULL){
             fprintf(stderr, "\"-r\",\"%s\"", regex);
         }
